@@ -1,0 +1,29 @@
+[user]
+    name = Chris Reeves
+    email = hello@chris.reeves.io
+[core]
+    editor = vim
+    filemode = false
+[alias]
+    co = checkout
+    br = branch
+    cm = commit
+    st = status
+    ap = add -p
+    unstage = reset HEAD --
+    last = log -1 HEAD
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[color]
+    ui = auto
+[color "diff"]
+    meta = blue bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = green
+    changed = yellow
+    untracked = red
+
+[hub]
+protocol = https
