@@ -58,6 +58,7 @@ NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'tclem/vim-arduino'
 NeoBundle 'Blackrush/vim-gocode'
+NeoBundle 'dag/vim-fish'
 
 " Python
 NeoBundle 'python.vim'
