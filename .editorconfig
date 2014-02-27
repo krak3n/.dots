@@ -1,0 +1,24 @@
+# General Editor Configuration
+# Projects can also have a local .editorconfig to customise syntax
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# 4 space indentation
+[*.py]
+indent_style = space
+indent_size = 4
+
+[*.js]
+indent_style = space
+indent_size = 4
+
+# 2 space indentation
+[*.fish]
+indent_style = space
+indent_size = 2
