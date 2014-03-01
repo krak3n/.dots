@@ -1,7 +1,11 @@
 # Source virtual fish
 
+# Virtualenv wrapper support
 set -g VIRTUALFISH_COMPAT_ALIASES
-. $HOME/.dots/fish/virtual.fish
+. $HOME/.config/fish/virtual.fish
+
+# Auto env support
+. $HOME/.config/fish/autoenv.fish
 
 function _git_branch_name
   echo (command git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
