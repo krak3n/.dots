@@ -18,7 +18,7 @@ indent_size = 4
 indent_style = space
 indent_size = 4
 
-# 2 space indentation
-[*.fish]
+# YAML Based files - 2 space indent
+[*.{yml, yaml, sls}]
 indent_style = space
 indent_size = 2

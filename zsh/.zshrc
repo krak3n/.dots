@@ -20,4 +20,5 @@ alias tmux="TERM=screen-256color-bce tmux"
 # Source oh my zsh
 source $ZSH/oh-my-zsh.sh
 
-# Autoenv
+# Tmuxp
+source $HOME/.dots/zsh/tmuxp.sh
