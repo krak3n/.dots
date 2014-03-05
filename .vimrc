@@ -44,6 +44,7 @@ NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'sjl/gundo.vim'
+NeoBundle 'sjl/vitality.vim'
 
 " Code Completion / Snippets
 NeoBundle 'Valloric/YouCompleteMe'
