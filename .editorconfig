@@ -22,3 +22,13 @@ indent_size = 4
 [*.{yml, yaml, sls}]
 indent_style = space
 indent_size = 2
+
+# Ruby - 2 space indent
+[*.rb]
+indent_style = space
+indent_size = 2
+
+# Vagrantfile
+[Vagrantfile]
+indent_style = space
+indent_size = 2
