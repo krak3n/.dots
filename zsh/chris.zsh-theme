@@ -1,7 +1,7 @@
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="%{$fg[magenta]%}"
-ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%} %{$fg[yellow]%}⚮ %{$reset_color%} "
+ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%} %{$fg[yellow]%}♒︎ %{$reset_color%} "
 
 function virtualenv_prompt_info() {
     if [ -n "$VIRTUAL_ENV" ]; then

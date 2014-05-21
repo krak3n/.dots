@@ -3,7 +3,7 @@ export ZSH_THEME="chris"
 
 plugins=(autoenv brew git git-flow-avh heroku pip tmux vagrant virtualenv virtualenvwrapper)
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
 export EDITOR='vim'
 
 # Language
@@ -14,6 +14,9 @@ export LANGUAGE=en_US.UTF-8
 
 export CFLAGS=-Qunused-arguments
 export CPPFLAGS=-Qunused-arguments
+
+# Virtualenv
+export DISABLE_VENV_CD=1
 
 # Tmux
 export DISABLE_AUTO_TITLE=true
@@ -28,3 +31,6 @@ source $HOME/.dots/zsh/tmuxp.sh
 
 # Pretty json
 alias pretty='python -mjson.tool'
+
+# Default Vagrant
+export VAGRANT_DEFAULT_PROVIDER='vmware_fusion'

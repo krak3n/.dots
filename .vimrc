@@ -45,9 +45,10 @@ NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'sjl/vitality.vim'
+NeoBundle 'moll/vim-bbye'
+NeoBundle 'ervandew/supertab'
 
 " Code Completion / Snippets
-NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'Raimondi/delimitMate'
 
@@ -59,12 +60,10 @@ NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'tclem/vim-arduino'
 NeoBundle 'Blackrush/vim-gocode'
-NeoBundle 'dag/vim-fish'
 
 " Python
-NeoBundle 'python.vim'
-NeoBundle 'nvie/vim-flake8'
-NeoBundle 'hynek/vim-python-pep8-indent'
+NeoBundle 'klen/python-mode'
+NeoBundle 'davidhalter/jedi-vim'
 
 NeoBundleCheck
 
@@ -198,7 +197,8 @@ set smarttab
 
 " Text display settings
 set linebreak
-set textwidth=80
+set textwidth=0
+set wrapmargin=0
 set autoindent
 set nowrap
 set whichwrap+=h,l,<,>,[,]
@@ -295,7 +295,7 @@ nnoremap <Leader>q :qa<cr>
 nnoremap <Leader>`` :qa!<cr>
 
 " Close current buffer
-nnoremap <Leader>x :bdelete<cr>
+:nnoremap <Leader>x :Bdelete<CR>
 
 " Write current buffer
 nmap <leader>w :w<cr>
@@ -451,8 +451,8 @@ autocmd BufEnter * call EightyColRuleOff()
 autocmd BufEnter *.py call EightyColRuleOn()
 
 " Validate against PEP8
-autocmd BufWritePost *.py call Flake8()
-let g:flake8_ignore="W404,F403"
+" autocmd BufWritePost *.py call Flake8()
+let g:flake8_ignore="W404,F403,W0511"
 
 "===============================================================================
 " NERDTree
@@ -472,6 +472,7 @@ let NERDTreeIgnore=[
     \ '\.bzr',
     \ '\.DS_Store',
     \ '\.egg-info$',
+    \ '\.egg$',
     \ '^dist$',
     \ '^build$',
     \ '^node_modules$',
@@ -514,20 +515,6 @@ let g:indentLine_char = '¦'
 let g:numbers_exclude = ['nerdtree']
 
 "===============================================================================
-" YouCompleteMe
-"===============================================================================
-
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_filetype_blacklist = {
-    \ 'notes' : 1,
-    \ 'markdown' : 1,
-    \ 'text' : 1,
-    \ 'unite' : 1
-    \}
-nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-"===============================================================================
 " UltiSnips
 "===============================================================================
 
@@ -535,25 +522,6 @@ nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-" Make UltiSnips works nicely with YCM
-function! g:UltiSnips_Complete()
-    call UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res == 0
-        if pumvisible()
-            return "\<C-n>"
-        else
-            call UltiSnips#JumpForwards()
-            if g:ulti_jump_forwards_res == 0
-               return "\<TAB>"
-            endif
-        endif
-    endif
-    return ""
-endfunction
-
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger .
-    \ " <C-R>=g:UltiSnips_Complete()<cr>"
 
 "===============================================================================
 " DelimitMate
@@ -567,3 +535,19 @@ autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
 
 " Auto imports when formatting go code
 let g:gofmt_command = "goimports"
+
+
+"===============================================================================
+" PyMode
+"===============================================================================
+
+let g:pymode = 1
+let g:pymode_rope = 0
+let g:pymode_lint_signs = 0
+let g:pymode_lint_ignore = "E702"
+
+"===============================================================================
+" Jedi
+"===============================================================================
+
+autocmd FileType python setlocal completeopt-=preview

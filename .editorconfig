@@ -1,5 +1,11 @@
-# General Editor Configuration
+#  ____   __    __   __ _
+# / ___) /  \  /  \ (  ( \
+# \___ \(  O )(  O )/    / ____
+# (____/ \__/  \__/ \_)__)(____)
+#
+# SOON_ Cross team root editorconfig configuration
 # Projects can also have a local .editorconfig to customise syntax
+#
 
 # top-most EditorConfig file
 root = true
@@ -9,26 +15,31 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 
-# 4 space indentation
+# Backend Languages (Python, Go, Ruby etc)
+
+# Python
 [*.py]
 indent_style = space
 indent_size = 4
+
+# Ruby
+[{*.rb,Vagrantfile}]
+indent_style = space
+indent_size = 2
+
+# Front End Languages (HTML, JS, CSS etc)
 
 [*.js]
 indent_style = space
 indent_size = 4
 
+[*.css]
+indent_style = space
+indent_size = 2
+
+# Misc
+
 # YAML Based files - 2 space indent
 [*.{yml, yaml, sls}]
-indent_style = space
-indent_size = 2
-
-# Ruby - 2 space indent
-[*.rb]
-indent_style = space
-indent_size = 2
-
-# Vagrantfile
-[Vagrantfile]
 indent_style = space
 indent_size = 2
