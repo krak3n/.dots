@@ -18,7 +18,7 @@ insert_final_newline = true
 # Backend Languages (Python, Go, Ruby etc)
 
 # Python
-[*.py]
+[{*.py,python.snippets}]
 indent_style = space
 indent_size = 4
 
@@ -31,7 +31,7 @@ indent_size = 2
 
 [*.js]
 indent_style = space
-indent_size = 4
+indent_size = 2
 
 [*.css]
 indent_style = space
@@ -40,6 +40,6 @@ indent_size = 2
 # Misc
 
 # YAML Based files - 2 space indent
-[*.{yml, yaml, sls}]
+[*.{yml,yaml,sls}]
 indent_style = space
 indent_size = 2

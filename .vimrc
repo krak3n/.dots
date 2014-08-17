@@ -8,11 +8,6 @@ set nocompatible
 " NeoBundle
 "===============================================================================
 
-" Fish shell is not supported, this fixes it
-if &shell =~# 'fish$'
-    set shell=sh
-endif
-
 if has('vim_starting')
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
@@ -33,46 +28,54 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 " Configuration
 NeoBundle 'editorconfig/editorconfig-vim'
 
-" Interface
+" Theme
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'chriskempson/base16-vim'
+
+" IDE
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'bling/vim-bufferline'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Yggdroot/indentLine'
+NeoBundle 'bling/vim-airline'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'sjl/gundo.vim'
-NeoBundle 'sjl/vitality.vim'
 NeoBundle 'moll/vim-bbye'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'rhysd/clever-f.vim'
+NeoBundle 'triglav/vim-visual-increment'
+
+" VCS
+NeoBundle 'tpope/vim-fugitive'
+
+" Code Completion
 NeoBundle 'ervandew/supertab'
-
-" Code Completion / Snippets
 NeoBundle 'SirVer/ultisnips'
-NeoBundle 'Raimondi/delimitMate'
-
-" Generic File Types
-NeoBundle 'saltstack/salt-vim'
-NeoBundle 'tpope/vim-markdown'
-NeoBundle 'vim-scripts/nginx.vim'
-NeoBundle 'digitaltoad/vim-jade'
-NeoBundle 'ekalinin/Dockerfile.vim'
-NeoBundle 'tclem/vim-arduino'
-NeoBundle 'Blackrush/vim-gocode'
+NeoBundle 'Valloric/YouCompleteMe', {
+    \ 'build' : {
+    \   'unix' : './install.sh --clang-completer --system-libclang',
+    \   'mac': './install.sh --clang-completer --system-libclang',
+    \ },
+\ }
 
 " Python
 NeoBundle 'klen/python-mode'
-NeoBundle 'davidhalter/jedi-vim'
+NeoBundle 'hdima/python-syntax'
+
+" Syntax
+NeoBundle 'ekalinin/Dockerfile.vim'
+NeoBundle 'saltstack/salt-vim'
+NeoBundle 'lrampa/vim-apib'
 
 NeoBundleCheck
 
-"===============================================================================
+"===============================================================================h
 " Colour Scheme
 "===============================================================================
 
+let base16colorspace=256
+
 set background=dark
-colorscheme solarized
+colorscheme base16-default
 
 "===============================================================================
 " General Settings
@@ -303,8 +306,8 @@ nmap <leader>w :w<cr>
 " Force write current buffer
 nmap <leader>W :w<cr>
 
-" Toggle NERDTree
-nnoremap <silent> <Leader><tab> :NERDTreeToggle<cr>
+" VimFiler
+nnoremap <silent> <Leader><tab> :VimFilerExplorer<cr>
 
 " Quick vimrc editing
 nnoremap <Leader>e :e! ~/.vimrc<cr>
@@ -341,21 +344,6 @@ endfunc
 autocmd BufWrite * :call DeleteTrailingWS()
 
 "===============================================================================
-" File Type Settings
-"===============================================================================
-
-" Niginx
-au BufNewFile,BufRead *.nginx.conf set filetype=nginx
-au BufNewFile,BufRead nginx.conf set filetype=nginx
-
-" Salt
-au BufNewFile,BufRead *.sls set filetype=sls
-
-" Arduino
-au BufRead,BufNewFile *.pde set filetype=arduino
-au BufRead,BufNewFile *.ino set filetype=arduino
-
-"===============================================================================
 " Unite
 "===============================================================================
 
@@ -372,6 +360,7 @@ call unite#filters#sorter_default#use(['sorter_rank'])
 call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'ignore_pattern', join([
       \ 'tmp/',
+      \ '\.git',
       \ '\.so',
       \ '\.swp',
       \ '\.zip',
@@ -379,8 +368,10 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ '\.pyc',
       \ '\.gif',
       \ '\.jpg',
+      \ '\.jpeg',
       \ '\.png/',
       \ '\.log/',
+      \ '\.egg',
       \ '.sass-cache',
       \ ], '\|'))
 
@@ -394,10 +385,10 @@ let g:unite_split_rule = "botright"
 let g:unite_source_history_yank_enable = 1
 
 " Enable short source name in window
-let g:unite_enable_short_source_names = 1
+let g:unite_enable_short_source_names = 0
 
 " Shorten the default update date of 500ms
-let g:unite_update_time = 200
+let g:unite_update_time = 100
 
 " Do not overwrite status line
 let g:unite_force_overwrite_statusline = 0
@@ -419,6 +410,9 @@ nnoremap <silent> [unite]<space> :<C-u>Unite
 " Yank history
 nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
 
+" Grep
+nnoremap <silent> [unite]/ :<C-u>Unite grep:.<cr>
+
 " Unite Settings Function
 " -----------------------
 
@@ -428,7 +422,6 @@ function! s:unite_settings()
     imap <silent><buffer><expr> <C-x> unite#do_action('split')
     imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
     imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
-
     nmap <buffer> <ESC> <Plug>(unite_exit)
 endfunction
 
@@ -442,100 +435,33 @@ let python_highlight_all = 1
 " Highlight columns greater than 80
 highlight OverLength ctermbg=darkred ctermfg=white guibg=#b30000
 func! EightyColRuleOn()
-    match OverLength /\%80v.\+/
+    match OverLength /\%81v.\+/
 endfunc
 func! EightyColRuleOff()
     match
 endfunc
 autocmd BufEnter * call EightyColRuleOff()
 autocmd BufEnter *.py call EightyColRuleOn()
+autocmd BufEnter *.rst call EightyColRuleOn()
 
 " Validate against PEP8
 " autocmd BufWritePost *.py call Flake8()
-let g:flake8_ignore="W404,F403,W0511"
-
-"===============================================================================
-" NERDTree
-"===============================================================================
-
-let NERDTreeShowBookmarks=1
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=[
-    \ '\.pyc',
-    \ '\.slsc',
-    \ '\~$',
-    \ '\.swo$',
-    \ '\.swp$',
-    \ '\.git',
-    \ '\.hg',
-    \ '\.svn',
-    \ '\.bzr',
-    \ '\.DS_Store',
-    \ '\.egg-info$',
-    \ '\.egg$',
-    \ '^dist$',
-    \ '^build$',
-    \ '^node_modules$',
-    \ '^.vagrant$',
-    \ '\.tox',
-    \ '^tmp$',
-    \ '\.coverage$',
-    \ '^__pycache__$']
-" Close vim if the only window open is nerdtree
-autocmd MyAutoCmd BufEnter *
-      \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let g:flake8_ignore="W404,F403,W0511,E712"
 
 "===============================================================================
 " Airline
 "===============================================================================
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'solarized'
-
-"===============================================================================
-" Bufferline
-"===============================================================================
-
-let g:bufferline_echo = 0
-let g:bufferline_active_buffer_left = '['
-let g:bufferline_active_buffer_right = ']'
-let g:bufferline_modified = ' *'
+let g:airline_theme = 'base16'
+let g:airline#extensions#tabline#enabled = 1
 
 "===============================================================================
 " IndentLine
 "===============================================================================
 
-let g:indentLine_color_term = 10
+let g:indentLine_color_term = 8
 let g:indentLine_char = '¦'
-
-"===============================================================================
-" Numbers
-"===============================================================================
-
-let g:numbers_exclude = ['nerdtree']
-
-"===============================================================================
-" UltiSnips
-"===============================================================================
-
-" Bindings
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-"===============================================================================
-" DelimitMate
-"===============================================================================
-
-autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
-
-"===============================================================================
-" Go
-"===============================================================================
-
-" Auto imports when formatting go code
-let g:gofmt_command = "goimports"
-
 
 "===============================================================================
 " PyMode
@@ -543,11 +469,49 @@ let g:gofmt_command = "goimports"
 
 let g:pymode = 1
 let g:pymode_rope = 0
+let g:pymode_doc = 0
 let g:pymode_lint_signs = 0
-let g:pymode_lint_ignore = "E702"
+let g:pymode_lint_ignore = "E702,E712"
+
+" Prevents documentation window from popping open
+set completeopt=menu
+
+func! DisablePyLint()
+    let g:pymode_lint = 0
+endfunc
+func! EnablePyLint()
+    let g:pymode_lint = 1
+endfunc
+autocmd BufEnter * call DisablePyLint()
+autocmd BufEnter *.py call EnablePyLint()
 
 "===============================================================================
-" Jedi
+" Vimfiller
 "===============================================================================
 
-autocmd FileType python setlocal completeopt-=preview
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_force_overwrite_statusline = 0
+let g:vimfiler_draw_files_limit = 1000
+let g:vimfiler_ignore_pattern='\%(.cache\|.coverage\|.bat\|.BAK\|.DAT\|.pyc\|.egg-info\)$\|'.
+  \ '^\%(.gitkeep\)$\|'.
+  \ '^\%(.env\|.ebextensions\|.elasticbeanstalk\|Procfile\)$\|'.
+  \ '^\%(.git\|.tmp\|__pycache__\|.DS_Store\|.o\|.tox\|.idea\|.ropeproject\)$'
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_readonly_file_icon = '✗'
+let g:vimfiler_marked_file_icon = '✓'
+let g:vimfiler_execute_file_list = {'jpg': 'open', 'jpeg': 'open', 'gif': 'open', 'bmp': 'open', 'html': 'open', 'ppt': 'open', 'pdf': 'open', 'png': 'open', 'ico': 'open'}
+
+"===============================================================================
+" Ultisnips
+"===============================================================================
+
+map <leader>us :UltiSnipsEdit<CR>
+
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
