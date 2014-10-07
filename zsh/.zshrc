@@ -1,7 +1,12 @@
 ZSH=$HOME/.oh-my-zsh
 export ZSH_THEME="chris"
 
-plugins=(autoenv brew git git-flow-avh heroku pip tmux vagrant virtualenv virtualenvwrapper)
+# Base 16
+BASE16_SCHEME="default"
+BASE16_SHELL="$HOME/.base16/base16-$BASE16_SCHEME.dark.sh"
+[[ -s $BASE16_SHELL ]] && . $BASE16_SHELL
+
+plugins=(autoenv brew docker git git-flow-avh heroku pip tmux vagrant virtualenv virtualenvwrapper)
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
 export EDITOR='vim'
@@ -32,5 +37,13 @@ source $HOME/.dots/zsh/tmuxp.sh
 # Pretty json
 alias pretty='python -mjson.tool'
 
-# Default Vagrant
-export VAGRANT_DEFAULT_PROVIDER='vmware_fusion'
+# Docker
+if [ $(boot2docker status) != "running" ]
+then
+    boot2docker up
+fi
+export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2375
+export DOCKER_IP=$(boot2docker ip 2>/dev/null)
+
+# Autoenv
+source /usr/local/opt/autoenv/activate.sh
