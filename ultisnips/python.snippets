@@ -1,0 +1,19 @@
+snippet #! "Shebang header for python scripts" b
+#!/usr/bin/env python
+# encoding: utf-8
+
+"""
+$1
+`!p snip.rv = ''.join(['=' for i in range(0, len(t[1]))])`
+
+$2
+"""
+endsnippet
+
+snippet pdb "Python Debugger"
+from pdb import set_trace; set_trace()
+endsnippet
+
+snippet pyt "Pytest set trace"
+from pytest import set_trace; set_trace()
+endsnippet
