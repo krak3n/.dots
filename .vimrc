@@ -43,6 +43,7 @@ NeoBundle 'moll/vim-bbye'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'rhysd/clever-f.vim'
 NeoBundle 'triglav/vim-visual-increment'
+NeoBundle 'junegunn/limelight.vim'
 
 " VCS
 NeoBundle 'tpope/vim-fugitive'
@@ -62,7 +63,7 @@ NeoBundle 'klen/python-mode'
 NeoBundle 'hdima/python-syntax'
 
 " Syntax
-NeoBundle 'ekalinin/Dockerfile.vim'
+NeoBundle 'honza/dockerfile.vim'
 NeoBundle 'saltstack/salt-vim'
 NeoBundle 'lrampa/vim-apib'
 
@@ -515,3 +516,9 @@ let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+
+"===============================================================================
+" LimeLight
+"===============================================================================
+
+let g:limelight_default_coefficient = 0.7
