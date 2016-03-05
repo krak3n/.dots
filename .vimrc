@@ -4,15 +4,15 @@
 " Disable vi-compatibility
 set nocompatible
 
-"===============================================================================
+"=============================================================================
 " NeoBundle
-"===============================================================================
+"=============================================================================
 
 if has('vim_starting')
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -44,6 +44,7 @@ NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'rhysd/clever-f.vim'
 NeoBundle 'triglav/vim-visual-increment'
 NeoBundle 'junegunn/limelight.vim'
+NeoBundle 'severin-lemaignan/vim-minimap'
 
 " VCS
 NeoBundle 'tpope/vim-fugitive'
@@ -58,29 +59,51 @@ NeoBundle 'Valloric/YouCompleteMe', {
     \ },
 \ }
 
-" Python
-NeoBundle 'klen/python-mode'
-NeoBundle 'hdima/python-syntax'
-
-" Syntax
+" Generic Syntax
 NeoBundle 'honza/dockerfile.vim'
 NeoBundle 'saltstack/salt-vim'
 NeoBundle 'lrampa/vim-apib'
+NeoBundle 'nginx.vim'
+
+" Python
+NeoBundle 'klen/python-mode',  {
+    \  'lazy' : 1,
+    \  'autoload' : {
+    \  'filetypes' : ['python', ]
+    \ }
+\ }
+NeoBundle 'hdima/python-syntax',  {
+    \  'lazy' : 1,
+    \  'autoload' : {
+    \  'filetypes' : ['python', ]
+    \ }
+\ }
+
+" Go
+NeoBundle 'fatih/vim-go',  {
+    \  'lazy' : 1,
+    \  'autoload' : {
+    \  'filetypes' : ['go', ]
+    \ }
+\ }
+
 
 NeoBundleCheck
 
-"===============================================================================h
+call neobundle#end()
+
+"=============================================================================
 " Colour Scheme
-"===============================================================================
+"=============================================================================
 
 let base16colorspace=256
 
 set background=dark
 colorscheme base16-default
 
-"===============================================================================
+"=============================================================================
 " General Settings
-"===============================================================================
+"=============================================================================
 
 syntax on
 filetype plugin indent on
@@ -250,9 +273,9 @@ if has("gui_running")
     set guioptions-=l
 endif
 
-"===============================================================================
+"=============================================================================
 " Bindings
-"===============================================================================
+"=============================================================================
 
 " Function Keys
 " -------------
@@ -308,7 +331,7 @@ nmap <leader>w :w<cr>
 nmap <leader>W :w<cr>
 
 " VimFiler
-nnoremap <silent> <Leader><tab> :VimFilerExplorer<cr>
+nnoremap <silent> <tab> :VimFilerExplorer<cr>
 
 " Quick vimrc editing
 nnoremap <Leader>e :e! ~/.vimrc<cr>
@@ -333,9 +356,9 @@ map <C-l> <C-W>l
 map <space> /
 map <c-space> ?
 
-"===============================================================================
+"=============================================================================
 " Always Delete trailing white space
-"===============================================================================
+"=============================================================================
 
 func! DeleteTrailingWS()
     exe "normal mz"
@@ -344,9 +367,9 @@ func! DeleteTrailingWS()
 endfunc
 autocmd BufWrite * :call DeleteTrailingWS()
 
-"===============================================================================
+"=============================================================================
 " Unite
-"===============================================================================
+"=============================================================================
 
 " Settings
 " --------
@@ -361,7 +384,11 @@ call unite#filters#sorter_default#use(['sorter_rank'])
 call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'ignore_pattern', join([
       \ 'tmp/',
-      \ '\.git',
+      \ 'node_modules/',
+      \ 'components/',
+      \ '\.godeps/',
+      \ '\.grunt/',
+      \ '\.git/',
       \ '\.so',
       \ '\.swp',
       \ '\.zip',
@@ -373,6 +400,9 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ '\.png/',
       \ '\.log/',
       \ '\.egg',
+      \ '\.png',
+      \ '\.jpg',
+      \ '\.gif',
       \ '.sass-cache',
       \ ], '\|'))
 
@@ -426,53 +456,53 @@ function! s:unite_settings()
     nmap <buffer> <ESC> <Plug>(unite_exit)
 endfunction
 
-"===============================================================================
+"=============================================================================
 " Python
-"===============================================================================
+"=============================================================================
 
 " Highlight all the python
 let python_highlight_all = 1
 
 " Highlight columns greater than 80
-highlight OverLength ctermbg=darkred ctermfg=white guibg=#b30000
-func! EightyColRuleOn()
-    match OverLength /\%81v.\+/
-endfunc
-func! EightyColRuleOff()
-    match
-endfunc
-autocmd BufEnter * call EightyColRuleOff()
-autocmd BufEnter *.py call EightyColRuleOn()
-autocmd BufEnter *.rst call EightyColRuleOn()
+" highlight OverLength ctermbg=darkred ctermfg=white guibg=#b30000
+" func! EightyColRuleOn()
+"     match OverLength /\%81v.\+/
+" endfunc
+" func! EightyColRuleOff()
+"     match
+" endfunc
+" autocmd BufEnter * call EightyColRuleOff()
+" autocmd BufEnter *.py call EightyColRuleOn()
+" autocmd BufEnter *.rst call EightyColRuleOn()
 
 " Validate against PEP8
 " autocmd BufWritePost *.py call Flake8()
-let g:flake8_ignore="W404,F403,W0511,E712"
+" let g:flake8_ignore="W404,F403,W0511,E712"
 
-"===============================================================================
+"=============================================================================
 " Airline
-"===============================================================================
+"=============================================================================
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16'
+let g:airline_theme = 'tomorrow'
 let g:airline#extensions#tabline#enabled = 1
 
-"===============================================================================
+"=============================================================================
 " IndentLine
-"===============================================================================
+"=============================================================================
 
 let g:indentLine_color_term = 8
 let g:indentLine_char = '¦'
 
-"===============================================================================
+"=============================================================================
 " PyMode
-"===============================================================================
+"=============================================================================
 
 let g:pymode = 1
 let g:pymode_rope = 0
 let g:pymode_doc = 0
 let g:pymode_lint_signs = 0
-let g:pymode_lint_ignore = "E702,E712"
+let g:pymode_lint_ignore = "E702,E712,E501"
 
 " Prevents documentation window from popping open
 set completeopt=menu
@@ -486,9 +516,9 @@ endfunc
 autocmd BufEnter * call DisablePyLint()
 autocmd BufEnter *.py call EnablePyLint()
 
-"===============================================================================
+"=============================================================================
 " Vimfiller
-"===============================================================================
+"=============================================================================
 
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
@@ -506,9 +536,9 @@ let g:vimfiler_readonly_file_icon = '✗'
 let g:vimfiler_marked_file_icon = '✓'
 let g:vimfiler_execute_file_list = {'jpg': 'open', 'jpeg': 'open', 'gif': 'open', 'bmp': 'open', 'html': 'open', 'ppt': 'open', 'pdf': 'open', 'png': 'open', 'ico': 'open'}
 
-"===============================================================================
+"=============================================================================
 " Ultisnips
-"===============================================================================
+"=============================================================================
 
 map <leader>us :UltiSnipsEdit<CR>
 
@@ -517,8 +547,13 @@ let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 
-"===============================================================================
+"=============================================================================
 " LimeLight
-"===============================================================================
+"=============================================================================
 
 let g:limelight_default_coefficient = 0.7
+
+"=============================================================================
+" LimeLight
+"=============================================================================
+let g:go_fmt_command = "/usr/local/opt/go/bin/goimports"

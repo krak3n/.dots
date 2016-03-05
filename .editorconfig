@@ -27,6 +27,10 @@ indent_size = 4
 indent_style = space
 indent_size = 2
 
+# Gol
+[*.go]
+indent_style = tab
+
 # Front End Languages (HTML, JS, CSS etc)
 
 [*.js]
