@@ -5,92 +5,39 @@
 set nocompatible
 
 "=============================================================================
-" NeoBundle
+" Vim Plug (Plugin Manage)
 "=============================================================================
 
-if has('vim_starting')
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
+call plug#begin()
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+" Core
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }  " Async Vim Processes
+Plug 'chriskempson/base16-vim'  " Color scheme
 
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+" IDE Features
+Plug 'Shougo/unite.vim'  " Fuzzy Search etc
+Plug 'Shougo/vimfiler.vim'  " Project Draw
+Plug 'vim-airline/vim-airline'  " Buffer Line
+Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
 
-" Asynchronous processes in vim
-NeoBundle 'Shougo/vimproc', { 'build': {
-      \   'windows': 'make -f make_mingw32.mak',
-      \   'cygwin': 'make -f make_cygwin.mak',
-      \   'mac': 'make -f make_mac.mak',
-      \   'unix': 'make -f make_unix.mak',
-      \ } }
-
-" Configuration
-NeoBundle 'editorconfig/editorconfig-vim'
-
-" Theme
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'chriskempson/base16-vim'
-
-" IDE
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimfiler.vim'
-NeoBundle 'Yggdroot/indentLine'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'myusuf3/numbers.vim'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'moll/vim-bbye'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'rhysd/clever-f.vim'
-NeoBundle 'triglav/vim-visual-increment'
-NeoBundle 'junegunn/limelight.vim'
-NeoBundle 'severin-lemaignan/vim-minimap'
-
-" VCS
-NeoBundle 'tpope/vim-fugitive'
+" Language Syntax / Configuration
+Plug 'editorconfig/editorconfig-vim'  " Language syntax overrides
+Plug 'stephpy/vim-yaml'  " Improved YAML for Vim
+Plug 'ekalinin/Dockerfile.vim'  " Dockerfile syntax
+Plug 'saltstack/salt-vim'  " Salt Stack
+Plug 'nginx.vim'  " Nginx
+Plug 'fatih/vim-go', { 'for': 'go' } " Go
+Plug 'klen/python-mode', { 'for': 'python' }  " Python Linting etc
+Plug 'hdima/python-syntax', { 'for': 'python' }  " Improved Python Syntax Hilights
 
 " Code Completion
-NeoBundle 'ervandew/supertab'
-NeoBundle 'SirVer/ultisnips'
-NeoBundle 'Valloric/YouCompleteMe', {
-    \ 'build' : {
-    \   'unix' : './install.sh --clang-completer --system-libclang',
-    \   'mac': './install.sh --clang-completer --system-libclang',
-    \ },
-\ }
+Plug 'ervandew/supertab'
+Plug 'SirVer/ultisnips'
+Plug 'Valloric/YouCompleteMe', {
+            \ 'do': './install.py --clang-completer --gocode-completer'
+            \ }
 
-" Generic Syntax
-NeoBundle 'honza/dockerfile.vim'
-NeoBundle 'saltstack/salt-vim'
-NeoBundle 'lrampa/vim-apib'
-NeoBundle 'nginx.vim'
-
-" Python
-NeoBundle 'klen/python-mode',  {
-    \  'lazy' : 1,
-    \  'autoload' : {
-    \  'filetypes' : ['python', ]
-    \ }
-\ }
-NeoBundle 'hdima/python-syntax',  {
-    \  'lazy' : 1,
-    \  'autoload' : {
-    \  'filetypes' : ['python', ]
-    \ }
-\ }
-
-" Go
-NeoBundle 'fatih/vim-go',  {
-    \  'lazy' : 1,
-    \  'autoload' : {
-    \  'filetypes' : ['go', ]
-    \ }
-\ }
-
-
-NeoBundleCheck
-
-call neobundle#end()
+call plug#end()
 
 "=============================================================================
 " Colour Scheme
@@ -484,7 +431,7 @@ let python_highlight_all = 1
 "=============================================================================
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'tomorrow'
+let g:airline_theme = 'base16'
 let g:airline#extensions#tabline#enabled = 1
 
 "=============================================================================
@@ -546,14 +493,3 @@ let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
-
-"=============================================================================
-" LimeLight
-"=============================================================================
-
-let g:limelight_default_coefficient = 0.7
-
-"=============================================================================
-" LimeLight
-"=============================================================================
-let g:go_fmt_command = "/usr/local/opt/go/bin/goimports"
