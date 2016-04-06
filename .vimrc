@@ -19,6 +19,8 @@ Plug 'Shougo/unite.vim'  " Fuzzy Search etc
 Plug 'Shougo/vimfiler.vim'  " Project Draw
 Plug 'vim-airline/vim-airline'  " Buffer Line
 Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
+Plug 'moll/vim-bbye'  " Buffer deletion
+Plug 'Yggdroot/indentLine'  " Indentation Hilight
 
 " Language Syntax / Configuration
 Plug 'editorconfig/editorconfig-vim'  " Language syntax overrides
@@ -28,7 +30,8 @@ Plug 'saltstack/salt-vim'  " Salt Stack
 Plug 'nginx.vim'  " Nginx
 Plug 'fatih/vim-go', { 'for': 'go' } " Go
 Plug 'klen/python-mode', { 'for': 'python' }  " Python Linting etc
-Plug 'hdima/python-syntax', { 'for': 'python' }  " Improved Python Syntax Hilights
+Plug 'fisadev/vim-isort', { 'for': 'python' }  " Python Import Sorting
+Plug 'hashivim/vim-vagrant', { 'for': 'Vagrantfile' }
 
 " Code Completion
 Plug 'ervandew/supertab'
@@ -220,6 +223,42 @@ if has("gui_running")
     set guioptions-=l
 endif
 
+" Relative Line Numbering
+" set relativenumber
+set foldmethod=manual
+
+" Override cursor line
+if has ("syntax")
+        let g:myCursorLine=0
+        function! MyCursorLine()
+                let g:myCursorLine = g:myCursorLine + 1
+                if g:myCursorLine >= 3 | let g:myCursorLine = 0 | endif
+                if g:myCursorLine == 1
+                        augroup myCursorLine
+                                autocmd!
+                                autocmd InsertEnter * set cursorline
+                                autocmd InsertLeave * set nocursorline
+                        augroup end
+                        echo "Cursor line on"
+                elseif g:myCursorLine == 2
+                        augroup myCursorLine
+                                autocmd!
+                        augroup end
+                        set cursorline
+                        echo "Cursor line always"
+                else
+                        augroup myCursorLine
+                                autocmd!
+                        augroup end
+                        set nocursorline
+                        echo "Cursor line off"
+                endif
+        endf
+
+        nmap <F1> :call MyCursorLine()<CR>
+        imap <F1> <C-o>:call MyCursorLine()<CR>
+endif
+
 "=============================================================================
 " Bindings
 "=============================================================================
@@ -269,7 +308,7 @@ nnoremap <Leader>q :qa<cr>
 nnoremap <Leader>`` :qa!<cr>
 
 " Close current buffer
-:nnoremap <Leader>x :Bdelete<CR>
+nnoremap <Leader>x :Bdelete<CR>
 
 " Write current buffer
 nmap <leader>w :w<cr>
@@ -333,6 +372,7 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'tmp/',
       \ 'node_modules/',
       \ 'components/',
+      \ '\.vagrant/',
       \ '\.godeps/',
       \ '\.grunt/',
       \ '\.git/',
@@ -450,18 +490,8 @@ let g:pymode_rope = 0
 let g:pymode_doc = 0
 let g:pymode_lint_signs = 0
 let g:pymode_lint_ignore = "E702,E712,E501"
-
-" Prevents documentation window from popping open
-set completeopt=menu
-
-func! DisablePyLint()
-    let g:pymode_lint = 0
-endfunc
-func! EnablePyLint()
-    let g:pymode_lint = 1
-endfunc
-autocmd BufEnter * call DisablePyLint()
-autocmd BufEnter *.py call EnablePyLint()
+let g:pymode_breakpoint = 0
+let g:pymode_folding = 0
 
 "=============================================================================
 " Vimfiller
@@ -472,6 +502,7 @@ let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_force_overwrite_statusline = 0
 let g:vimfiler_draw_files_limit = 1000
 let g:vimfiler_ignore_pattern='\%(.cache\|.coverage\|.bat\|.BAK\|.DAT\|.pyc\|.egg-info\)$\|'.
+  \ '^\%(.vagrant\)$\|'.
   \ '^\%(.gitkeep\)$\|'.
   \ '^\%(.env\|.ebextensions\|.elasticbeanstalk\|Procfile\)$\|'.
   \ '^\%(.git\|.tmp\|__pycache__\|.DS_Store\|.o\|.tox\|.idea\|.ropeproject\)$'
