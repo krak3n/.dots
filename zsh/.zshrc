@@ -37,21 +37,21 @@ source $HOME/.dots/zsh/tmuxp.sh
 # Pretty json
 alias pretty='python -mjson.tool'
 
-## Docker
-if [ ! -n "$DOCKER_IP" ]; then
-    echo "Setting up Docker..."
-    eval "$(docker-machine env default)"
-    export DOCKER_IP=$(docker-machine ip default)
-fi;
-
-# GO
-export PATH=$PATH:/usr/local/go/bin
-
-# Docker Compose Alias
-alias compose='docker-compose'
+# ## Docker
+# if [ ! -n "$DOCKER_IP" ]; then
+#     echo "Setting up Docker..."
+#     eval "$(docker-machine env default)"
+#     export DOCKER_IP=$(docker-machine ip default)
+# fi;
+#
+# # GO
+# export PATH=$PATH:/usr/local/go/bin
+#
+# # Docker Compose Alias
+# alias compose='docker-compose'
 
 # Default Vagrant
-export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
+#export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
 
 # The next line updates PATH for the Google Cloud SDK.
 source '/Users/chrisreeves/.gcloud/google-cloud-sdk/path.zsh.inc'

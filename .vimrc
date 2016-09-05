@@ -4,130 +4,108 @@
 " Disable vi-compatibility
 set nocompatible
 
-"=============================================================================
-" Vim Plug (Plugin Manage)
-"=============================================================================
+call plug#begin('~/.vim/plugged')
 
-call plug#begin()
-
-" Core
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }  " Async Vim Processes
+" Theme
 Plug 'chriskempson/base16-vim'  " Color scheme
 
-" IDE Features
-Plug 'Shougo/unite.vim'  " Fuzzy Search etc
-Plug 'Shougo/vimfiler.vim'  " Project Draw
+" UI
 Plug 'vim-airline/vim-airline'  " Buffer Line
 Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
-Plug 'moll/vim-bbye'  " Buffer deletion
 Plug 'Yggdroot/indentLine'  " Indentation Hilight
 
-" Language Syntax / Configuration
+" Core IDE Features
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }  " Async Vim Processes
+Plug 'Shougo/unite.vim'  " Fuzzy Search etc
+Plug 'Shougo/vimfiler.vim'  " Project Draw - Depends on Unite
 Plug 'editorconfig/editorconfig-vim'  " Language syntax overrides
-Plug 'stephpy/vim-yaml'  " Improved YAML for Vim
-Plug 'ekalinin/Dockerfile.vim'  " Dockerfile syntax
-Plug 'saltstack/salt-vim'  " Salt Stack
-Plug 'nginx.vim'  " Nginx
-Plug 'fatih/vim-go', { 'for': 'go' } " Go
-Plug 'klen/python-mode', { 'for': 'python' }  " Python Linting etc
-Plug 'fisadev/vim-isort', { 'for': 'python' }  " Python Import Sorting
-Plug 'hashivim/vim-vagrant', { 'for': 'Vagrantfile' }
-
-" Code Completion
-Plug 'ervandew/supertab'
-Plug 'SirVer/ultisnips'
+Plug 'ervandew/supertab' " For code completion
 Plug 'Valloric/YouCompleteMe', {
             \ 'do': './install.py --clang-completer --gocode-completer'
-            \ }
+            \ } " Code completion engine
+
+" Golang
+Plug 'fatih/vim-go', { 'for': 'go' } " Go
+
+" Python
+Plug 'klen/python-mode', { 'for': 'python' }  " Python Linting etc
+Plug 'fisadev/vim-isort', { 'for': 'python' }  " Python Import Sorting
+
+" Nginx
+Plug 'nginx.vim'  " Nginx
+
+" Vagrant
+Plug 'hashivim/vim-vagrant', { 'for': 'Vagrantfile' }
+
+" Docker
+Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' } " Dockerfile syntax
+
+" Salt / YAML
+Plug 'stephpy/vim-yaml'  " Improved YAML for Vim
+Plug 'ekalinin/Dockerfile.vim'  " Dockerfile syntax
+
+" Misc
+Plug 'moll/vim-bbye'  " Buffer deletion
 
 call plug#end()
 
-"=============================================================================
-" Colour Scheme
-"=============================================================================
+"
+" Theme
+"
 
 let base16colorspace=256
-
 set background=dark
 colorscheme base16-default
 
-"=============================================================================
-" General Settings
-"=============================================================================
+"
+" Global Configuration
+"
 
-syntax on
-filetype plugin indent on
+" Explicitly set encoding to utf-8
+set encoding=utf-8
 
-" Set augroup
-augroup MyAutoCmd
-  autocmd!
-augroup END
+" Set language
+lang en_gb
 
-" Reload vimrc when edited
-autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
-      \ so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-
-" Solid line for vsplit separator
-set fcs=vert:│
+" Lower update time: https://www.reddit.com/r/vim/comments/3ql651/what_do_you_set_your_updatetime_to/
+set updatetime=750
 
 " Give one virtual space at end of line
 set virtualedit=onemore
 
+" Syntax Hilighting & Intendation
+syntax on
+filetype plugin indent on
 " Turn on line number
 set number
+"
+" Column width indicator
+set colorcolumn=+1
 
-" Always splits to the right and below
-set splitright
-set splitbelow
-
-" 256bit terminal
-set t_Co=256
-
-" Sets how many lines of history vim has to remember
-set history=10000
-
-" Set to auto read when a file is changed from the outside
-set autoread
-
-" Set to auto write file
-set autowriteall
-
-" Display unprintable chars
-set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
-set showbreak=↪
-
-" Minimal number of screen lines to keep above and below the cursor
-set scrolloff=10
-
-" How many lines to scroll at a time, make scrolling appears faster
-set scrolljump=3
-
-" Min width of the number column to the left
-set numberwidth=4
-
-" Open all folds initially
-set foldmethod=indent
-set foldlevelstart=99
-
-" No need to show mode
+" Do not show mode
 set noshowmode
+
+" Always show the statusline
+set laststatus=2
+
+" Custom leader timeouts
+set timeout timeoutlen=1000 ttimeoutlen=0
 
 " Allow changing buffer without saving it first
 set hidden
 
-" Set backspace config
-set backspace=eol,start,indent
+" Set to auto read when a file is changed from the outside
+set autoread
 
 " Case insensitive search
 set ignorecase
 set smartcase
 
-" Set sensible heights for splits
-set winheight=50
-
 " Make search act like search in modern browsers
 set incsearch
+
+" Hilight searched strings
+set hlsearch
 
 " Make regex a little easier to type
 set magic
@@ -138,34 +116,30 @@ set showmatch
 " Show incomplete commands
 set showcmd
 
-" Turn off sound
-set vb
-set t_vb=
+" Writes to the unnamed register also writes to the * and + registers. This
+" makes it easy to interact with the system clipboard
+if has('unnamedplus')
+    set clipboard=unnamedplus
+else
+    set clipboard=unnamed
+endif
 
-" Always show the statusline
-set laststatus=2
+" Solid line for vsplit separator
+set fcs=vert:│
 
-" Explicitly set encoding to utf-8
-set encoding=utf-8
+" Always splits to the right and below
+set splitright
+set splitbelow
 
-" Column width indicator
-set colorcolumn=+1
-
-" Lower the delay of escaping out of other modes
-set timeout timeoutlen=1000 ttimeoutlen=0
-
-" Hilight searched strings
-set hlsearch
-
-" Set language
-lang en_gb
+" Set sensible heights for splits
+set winheight=50
 
 " Turn backup off
 set nobackup
 set nowritebackup
 set noswapfile
 
-" Tab settings
+" Default Tab settings
 set expandtab
 set shiftwidth=4
 set tabstop=4
@@ -180,29 +154,10 @@ set autoindent
 set nowrap
 set whichwrap+=h,l,<,>,[,]
 
-" Writes to the unnamed register also writes to the * and + registers. This
-" makes it easy to interact with the system clipboard
-if has('unnamedplus')
-    set clipboard=unnamedplus
-else
-    set clipboard=unnamed
-endif
-
-" Spelling highlights. Use underline in term to prevent cursorline highlights
-" from interfering
-if !has("gui_running")
-    hi clear SpellBad
-    hi SpellBad cterm=underline ctermfg=red
-    hi clear SpellCap
-    hi SpellCap cterm=underline ctermfg=blue
-    hi clear SpellLocal
-    hi SpellLocal cterm=underline ctermfg=blue
-    hi clear SpellRare
-    hi SpellRare cterm=underline ctermfg=blue
-endif
-
-" Use a low updatetime. This is used by CursorHold
-set updatetime=1000
+" Display unprintable chars
+set list
+set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
+set showbreak=↪
 
 " Cursor settings. This makes terminal vim sooo much nicer!
 " Tmux will only forward escape sequences to the terminal if surrounded by a DCS
@@ -215,76 +170,11 @@ else
     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
-" Remove Scrollbars for GUI Vim
-if has("gui_running")
-    set guioptions-=r
-    set guioptions-=R
-    set guioptions-=L
-    set guioptions-=l
-endif
+"
+" Key Mapping
+"
 
-" Relative Line Numbering
-" set relativenumber
-set foldmethod=manual
-
-" Override cursor line
-if has ("syntax")
-        let g:myCursorLine=0
-        function! MyCursorLine()
-                let g:myCursorLine = g:myCursorLine + 1
-                if g:myCursorLine >= 3 | let g:myCursorLine = 0 | endif
-                if g:myCursorLine == 1
-                        augroup myCursorLine
-                                autocmd!
-                                autocmd InsertEnter * set cursorline
-                                autocmd InsertLeave * set nocursorline
-                        augroup end
-                        echo "Cursor line on"
-                elseif g:myCursorLine == 2
-                        augroup myCursorLine
-                                autocmd!
-                        augroup end
-                        set cursorline
-                        echo "Cursor line always"
-                else
-                        augroup myCursorLine
-                                autocmd!
-                        augroup end
-                        set nocursorline
-                        echo "Cursor line off"
-                endif
-        endf
-
-        nmap <F1> :call MyCursorLine()<CR>
-        imap <F1> <C-o>:call MyCursorLine()<CR>
-endif
-
-"=============================================================================
-" Bindings
-"=============================================================================
-
-" Function Keys
-" -------------
-
-" Paste toggle
-set pastetoggle=<F2>
-
-" Toggle relative line numbers
-nnoremap <F3> :NumbersToggle<cr>
-
-" Toggle line numbers
-nnoremap <F4> :NumbersOnOff<cr>
-
-" Toggle spell checking
-nnoremap <F5> :setlocal spell! spelllang=en_gb<cr>
-
-" Toggle undo history
-nnoremap <F6> :<C-u>GundoToggle<CR>
-
-" Movement
-" --------
-
-" Buffer cycling
+" Buffer Cycle
 map <leader>[ :bprevious<cr>
 map <leader>] :bnext<cr>
 
@@ -298,36 +188,22 @@ noremap! <Left> <Esc>
 noremap  <Right> ""
 noremap! <Right> <Esc>
 
-" Leader Mappings
-" ---------------
-
-" Close all buffers
-nnoremap <Leader>q :qa<cr>
-
-" Force close all
-nnoremap <Leader>`` :qa!<cr>
-
-" Close current buffer
-nnoremap <Leader>x :Bdelete<CR>
-
 " Write current buffer
 nmap <leader>w :w<cr>
 
 " Force write current buffer
 nmap <leader>W :w<cr>
 
-" VimFiler
-nnoremap <silent> <tab> :VimFilerExplorer<cr>
-
-" Quick vimrc editing
-nnoremap <Leader>e :e! ~/.vimrc<cr>
+" Close current buffer
+nnoremap <Leader>x :Bdelete<CR>
 
 " Copy current path to file
 nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
 
-" Control Key Mappings
-" --------------------
+" Map space to search and ctrl-space to reverse search
+map <space> /
+map <C-space> ?
 
 " Window movement
 map <C-j> <C-W>j
@@ -335,16 +211,9 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-" Space Key Mappings
-" ------------------
-
-" Map space to search and ctrl-space to reverse search
-map <space> /
-map <c-space> ?
-
-"=============================================================================
-" Always Delete trailing white space
-"=============================================================================
+"
+" Delete Trailing White Space
+"
 
 func! DeleteTrailingWS()
     exe "normal mz"
@@ -353,12 +222,24 @@ func! DeleteTrailingWS()
 endfunc
 autocmd BufWrite * :call DeleteTrailingWS()
 
-"=============================================================================
-" Unite
-"=============================================================================
+"
+" Vim Airline Configuration
+"
 
-" Settings
-" --------
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'base16'
+let g:airline#extensions#tabline#enabled = 1
+
+"
+" Indent Line
+"
+
+let g:indentLine_color_term = 8
+let g:indentLine_char = '¦'
+
+"
+" Unite
+"
 
 " Use the fuzzy matcher for everything
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
@@ -414,9 +295,6 @@ let g:unite_force_overwrite_statusline = 0
 " Extra configuration with settings function
 autocmd FileType unite call s:unite_settings()
 
-" Unite Mappings
-" --------------
-
 " Map space to the prefix for Unite
 nnoremap [unite] <Nop>
 nmap <space> [unite]
@@ -432,8 +310,6 @@ nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
 nnoremap <silent> [unite]/ :<C-u>Unite grep:.<cr>
 
 " Unite Settings Function
-" -----------------------
-
 function! s:unite_settings()
     imap <buffer> <C-j> <Plug>(unite_select_next_line)
     imap <buffer> <C-k> <Plug>(unite_select_previous_line)
@@ -443,47 +319,40 @@ function! s:unite_settings()
     nmap <buffer> <ESC> <Plug>(unite_exit)
 endfunction
 
-"=============================================================================
-" Python
-"=============================================================================
+"
+" Vim Filer
+"
 
-" Highlight all the python
-let python_highlight_all = 1
+" <tab> toggles vim filer draw
+nnoremap <silent> <tab> :VimFilerExplorer<cr>
 
-" Highlight columns greater than 80
-" highlight OverLength ctermbg=darkred ctermfg=white guibg=#b30000
-" func! EightyColRuleOn()
-"     match OverLength /\%81v.\+/
-" endfunc
-" func! EightyColRuleOff()
-"     match
-" endfunc
-" autocmd BufEnter * call EightyColRuleOff()
-" autocmd BufEnter *.py call EightyColRuleOn()
-" autocmd BufEnter *.rst call EightyColRuleOn()
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_force_overwrite_statusline = 0
+let g:vimfiler_draw_files_limit = 1000
+let g:vimfiler_ignore_pattern='\%(.cache\|.coverage\|.bat\|.BAK\|.DAT\|.pyc\|.egg-info\)$\|'.
+  \ '^\%(.vagrant\)$\|'.
+  \ '^\%(.gitkeep\)$\|'.
+  \ '^\%(.ebextensions\|.elasticbeanstalk\|Procfile\)$\|'.
+  \ '^\%(.git\|.tmp\|__pycache__\|.DS_Store\|.o\|.tox\|.idea\|.ropeproject\)$'
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▼'
+let g:vimfiler_tree_closed_icon = '▷'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_readonly_file_icon = '✕'
+let g:vimfiler_marked_file_icon = '❯'
+let g:vimfiler_execute_file_list = {'jpg': 'open', 'jpeg': 'open', 'gif': 'open', 'bmp': 'open', 'html': 'open', 'ppt': 'open', 'pdf': 'open', 'png': 'open', 'ico': 'open'}
 
-" Validate against PEP8
-" autocmd BufWritePost *.py call Flake8()
-" let g:flake8_ignore="W404,F403,W0511,E712"
+"
+" YCM
+"
 
-"=============================================================================
-" Airline
-"=============================================================================
+set completeopt-=preview
+let g:ycm_add_preview_to_completeopt = 0
 
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16'
-let g:airline#extensions#tabline#enabled = 1
-
-"=============================================================================
-" IndentLine
-"=============================================================================
-
-let g:indentLine_color_term = 8
-let g:indentLine_char = '¦'
-
-"=============================================================================
+"
 " PyMode
-"=============================================================================
+"
 
 let g:pymode = 1
 let g:pymode_rope = 0
@@ -493,34 +362,8 @@ let g:pymode_lint_ignore = "E702,E712,E501"
 let g:pymode_breakpoint = 0
 let g:pymode_folding = 0
 
-"=============================================================================
-" Vimfiller
-"=============================================================================
+"
+" Go
+"
 
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_safe_mode_by_default = 0
-let g:vimfiler_force_overwrite_statusline = 0
-let g:vimfiler_draw_files_limit = 1000
-let g:vimfiler_ignore_pattern='\%(.cache\|.coverage\|.bat\|.BAK\|.DAT\|.pyc\|.egg-info\)$\|'.
-  \ '^\%(.vagrant\)$\|'.
-  \ '^\%(.gitkeep\)$\|'.
-  \ '^\%(.env\|.ebextensions\|.elasticbeanstalk\|Procfile\)$\|'.
-  \ '^\%(.git\|.tmp\|__pycache__\|.DS_Store\|.o\|.tox\|.idea\|.ropeproject\)$'
-let g:vimfiler_tree_leaf_icon = ' '
-let g:vimfiler_tree_opened_icon = '▾'
-let g:vimfiler_tree_closed_icon = '▸'
-let g:vimfiler_file_icon = '-'
-let g:vimfiler_readonly_file_icon = '✗'
-let g:vimfiler_marked_file_icon = '✓'
-let g:vimfiler_execute_file_list = {'jpg': 'open', 'jpeg': 'open', 'gif': 'open', 'bmp': 'open', 'html': 'open', 'ppt': 'open', 'pdf': 'open', 'png': 'open', 'ico': 'open'}
-
-"=============================================================================
-" Ultisnips
-"=============================================================================
-
-map <leader>us :UltiSnipsEdit<CR>
-
-let g:UltiSnipsExpandTrigger="<c-k>"
-let g:UltiSnipsJumpForwardTrigger="<c-k>"
-let g:UltiSnipsJumpBackwardTrigger="<s-c-j>"
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+let g:go_fmt_command = "goimports"
