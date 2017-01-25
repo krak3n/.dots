@@ -1,12 +1,12 @@
 ZSH=$HOME/.oh-my-zsh
 export ZSH_THEME="chris"
 
+plugins=(aws autoenv brew docker git pip tmux virtualenv virtualenvwrapper)
+
 # Base 16
 BASE16_SCHEME="default"
 BASE16_SHELL="$HOME/.colours/base16-$BASE16_SCHEME.dark.sh"
 [[ -s $BASE16_SHELL ]] && . $BASE16_SHELL
-
-plugins=(aws autoenv brew docker git pip tmux vagrant virtualenv virtualenvwrapper)
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
 export EDITOR='vim'
@@ -22,6 +22,8 @@ export CPPFLAGS=-Qunused-arguments
 
 # Virtualenv
 export DISABLE_VENV_CD=1
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+source "/usr/local/bin/virtualenvwrapper.sh"
 
 # Tmux
 export DISABLE_AUTO_TITLE=true
@@ -37,24 +39,10 @@ source $HOME/.dots/zsh/tmuxp.sh
 # Pretty json
 alias pretty='python -mjson.tool'
 
-# ## Docker
-# if [ ! -n "$DOCKER_IP" ]; then
-#     echo "Setting up Docker..."
-#     eval "$(docker-machine env default)"
-#     export DOCKER_IP=$(docker-machine ip default)
-# fi;
-#
-# # GO
-# export PATH=$PATH:/usr/local/go/bin
-#
-# # Docker Compose Alias
-# alias compose='docker-compose'
-
-# Default Vagrant
-#export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
-
 # The next line updates PATH for the Google Cloud SDK.
 source '/Users/chrisreeves/.gcloud/google-cloud-sdk/path.zsh.inc'
 
 # The next line enables shell command completion for gcloud.
 source '/Users/chrisreeves/.gcloud/google-cloud-sdk/completion.zsh.inc'
+
+alias sfmscores="http http://20.0.10.171:38000/scores/week | jq -c '.scores[]' | json2csv -k displayName,score -p | csvlook"

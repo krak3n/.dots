@@ -41,9 +41,17 @@ indent_size = 2
 indent_style = space
 indent_size = 2
 
+[*.html]
+indent_style = space
+indent_size = 2
+
+[*.proto]
+indent_style = space
+indent_size = 2
+
 # Misc
 
 # YAML Based files - 2 space indent
-[*.{yml,yaml,sls}]
+[*.{yml,yaml,sls,jinja}]
 indent_style = space
 indent_size = 2
