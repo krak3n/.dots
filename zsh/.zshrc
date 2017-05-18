@@ -9,7 +9,7 @@ ZSH=$HOME/.oh-my-zsh
 export ZSH_THEME="chris"
 
 # Set plugins
-plugins=(git)
+plugins=(git tmux)
 
 # Source oh my zsh
 source $ZSH/oh-my-zsh.sh
@@ -26,3 +26,8 @@ alias mjson='python -mjson.tool'
 
 # SFM Scores
 alias sfmscores="http http://20.0.10.171:38000/scores/week | jq -c '.scores[]' | json2csv -k displayName,score -p | csvlook"
+
+# Linuxbrew
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
