@@ -14,7 +14,7 @@
     unstage = reset HEAD --
     last = log -1 HEAD
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-    up = pull --rebase --autostash
+    up = pull 
 [color]
     ui = auto
 [color "diff"]
@@ -34,3 +34,7 @@
 	required = true
 [url "git@git.soon.build:"]
 	insteadOf = https://git.soon.build/
+[rebase]
+	autoStash = true
+[pull]
+	rebase = true
