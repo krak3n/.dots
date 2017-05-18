@@ -2,14 +2,17 @@
 # Oh My ZSH
 #
 
+# ZSH Home
+ZSH=$HOME/.oh-my-zsh
+
 # Set Theme
-# export ZSH_THEME="chris"
+export ZSH_THEME="chris"
 
 # Set plugins
 plugins=(git)
 
 # Source oh my zsh
-source $HOME/.oh-my-zsh/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 
 #
 # Misc
