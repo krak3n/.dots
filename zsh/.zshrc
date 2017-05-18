@@ -20,3 +20,6 @@ export EDITOR='vim'
 
 # Pretty json
 alias mjson='python -mjson.tool'
+
+# SFM Scores
+alias sfmscores="http http://20.0.10.171:38000/scores/week | jq -c '.scores[]' | json2csv -k displayName,score -p | csvlook"

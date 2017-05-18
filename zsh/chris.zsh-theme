@@ -1,25 +1,37 @@
-export VIRTUAL_ENV_DISABLE_PROMPT=1
+#!/usr/bin/env zsh
 
-ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="%{$fg[magenta]%}"
-ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%} %{$fg[yellow]%}⚡%{$reset_color%} "
+#
+# Chris ZSH Theme
+#
 
-function virtualenv_prompt_info() {
-    if [ -n "$VIRTUAL_ENV" ]; then
-        if [ -f "$VIRTUAL_ENV/__name__" ]; then
-            local name=`cat $VIRTUAL_ENV/__name__`
-        elif [ `basename $VIRTUAL_ENV` = "__" ]; then
-            local name=$(basename $(dirname $VIRTUAL_ENV))
-        else
-            local name=$(basename $VIRTUAL_ENV)
-        fi
-        echo "$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX$name$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX"
+# Colours
+YELLOW=003
+GREY=008
+BLUE=004
+RED=001
+MAGENTA=005
+GREEN=002
+
+# Virtualenv
+function virtualenv_info {
+    if [[ -n $VIRTUAL_ENV ]] then
+        echo "%{$FX[reset]%} %{$FG[$GREY]%}`basename $VIRTUAL_ENV`%{$FX[reset]%} %{$FG[$MAGENTA]%}⌁%{$FX[reset]%}"
     fi
 }
 
-PROMPT='$(virtualenv_prompt_info)%{$fg[cyan]%}%n%{$fg[yellow]%} at %{$reset_color%}%{$fg[blue]%}%~$(git_prompt_info)%{$reset_color%}
-%{$fg[yellow]%}↳ %{$reset_color%} '
+# Return Status Hinting
+local ret_status="%(?:%{$FG[$BLUE]%}➜:%{$FG[$RED]%}➜)"
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%} on %{$reset_color%}%{$fg[yellow]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}●%{$fg[yellow]%}"
+# Git Prompt
+ZSH_THEME_GIT_PROMPT_PREFIX=" %{$FG[$BLUE]%}❯%{$FX[reset]%} %{$FG[$YELLOW]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$FX[reset]%}"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %{$FG[$RED]%}●%{$FX[reset]%}"
+ZSH_THEME_GIT_PROMPT_CLEAN=" %{$FG[$GREEN]%}●%{$FX[reset]%}"
+
+# Prompts
+PROMPT_USER="%{$FG[$GREY]%}%n%{$FX[reset]%} %{$FG[$YELLOW]%}❯%{$FX[reset]%}"
+PROMPT_END="
+%{$FG[$MAGENTA]%}❯%{$FX[reset]%} "
+
+# Define prompts.
+PROMPT='${ret_status}$(virtualenv_info) $PROMPT_USER %{$FG[$GREY]%}%~%{$FX[reset]%}$(git_prompt_info) $PROMPT_END'
