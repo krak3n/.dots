@@ -14,6 +14,9 @@ Plug 'joshdick/onedark.vim'
 " Utilities
 Plug 'moll/vim-bbye'
 
+" Programming Languages
+Plug 'fatih/vim-go', { 'for': 'go' }
+
 " Load Plugins
 call plug#end()
 
