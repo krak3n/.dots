@@ -22,6 +22,10 @@ Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
 Plug 'Valloric/YouCompleteMe', {
     \ 'do': './install.py --clang-completer --gocode-completer'
     \ }
+Plug 'ervandew/supertab' " For code completion
+
+" Snippets
+Plug 'SirVer/ultisnips'
 
 " Utilities
 Plug 'moll/vim-bbye'
