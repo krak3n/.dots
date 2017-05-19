@@ -11,6 +11,11 @@ call plug#begin('~/.vim/plugged')
 " Theme
 Plug 'joshdick/onedark.vim'
 
+" IDE Features
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimfiler.vim'
+
 " Utilities
 Plug 'moll/vim-bbye'
 
@@ -131,6 +136,8 @@ set hlsearch
 " Easier regex
 set magic
 
+" Backspace Fix
+set backspace=2
 
 "
 " Clipboard
@@ -225,3 +232,40 @@ func! DeleteTrailingWS()
     exe "normal `z"
 endfunc
 autocmd BufWrite * :call DeleteTrailingWS()
+
+"
+" VimFiler
+"
+
+" <tab> toggles vim filer draw
+nnoremap <silent> <tab> :VimFilerExplorer<cr>
+
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_force_overwrite_statusline = 0
+let g:vimfiler_draw_files_limit = 1000
+let g:vimfiler_ignore_pattern='\%(.cache\|.coverage\|.bat\|.BAK\|.DAT\|.pyc\|.egg-info\)$\|'.
+  \ '^\%(.vagrant\)$\|'.
+  \ '^\%(.gitkeep\)$\|'.
+  \ '^\%(.ebextensions\|.elasticbeanstalk\|Procfile\)$\|'.
+  \ '^\%(.git\|.tmp\|__pycache__\|.DS_Store\|.tox\|.idea\|.ropeproject\)$'
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▼'
+let g:vimfiler_tree_closed_icon = '▷'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_readonly_file_icon = '✕'
+let g:vimfiler_marked_file_icon = '❯'
+let g:vimfiler_execute_file_list = {'jpg': 'open', 'jpeg': 'open', 'gif': 'open', 'bmp': 'open', 'html': 'open', 'ppt': 'open', 'pdf': 'open', 'png': 'open', 'ico': 'open'}
+
+"
+" Go
+"
+
+let g:go_fmt_command = "goimports"
+let g:go_highlight_types = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+let g:go_auto_type_info = 1
