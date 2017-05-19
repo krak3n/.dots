@@ -14,13 +14,18 @@ Plug 'joshdick/onedark.vim'
 " IDE Features
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimfiler.vim'
+Plug 'Shougo/vimfiler.vim'             " Project Draw
+Plug 'vim-airline/vim-airline'         " Buffer Line
+Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
 
 " Utilities
 Plug 'moll/vim-bbye'
 
 " Programming Languages
-Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'fatih/vim-go', { 'for': 'go' } " Go
+
+" Markup Formats
+Plug 'cespare/vim-toml' " TOML
 
 " Load Plugins
 call plug#end()
@@ -256,6 +261,28 @@ let g:vimfiler_file_icon = '-'
 let g:vimfiler_readonly_file_icon = '✕'
 let g:vimfiler_marked_file_icon = '❯'
 let g:vimfiler_execute_file_list = {'jpg': 'open', 'jpeg': 'open', 'gif': 'open', 'bmp': 'open', 'html': 'open', 'ppt': 'open', 'pdf': 'open', 'png': 'open', 'ico': 'open'}
+
+"
+" Vim Airline
+"
+
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#buffer_nr_show = 0
+let g:airline_skip_empty_sections = 0
+let g:airline#extensions#tabline#fnamemod = ':.'
+let g:airline#extensions#tabline#fnamecollapse = 0
+let g:airline#extensions#syntastic#enabled = 0
+let g:airline_detect_iminsert=0
+let g:airline#extensions#tmuxline#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_tabs = 0
+let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#wordcount#enabled = 0
+let g:airline_theme = 'onedark'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tagbar#enabled = 1
 
 "
 " Go
