@@ -74,6 +74,9 @@ syntax on
 " Enable indentation
 filetype plugin indent on
 
+" Enable relative line numbering
+set relativenumber
+
 " Enable line numbers
 set number
 
