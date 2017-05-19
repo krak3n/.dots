@@ -18,6 +18,11 @@ Plug 'Shougo/vimfiler.vim'             " Project Draw
 Plug 'vim-airline/vim-airline'         " Buffer Line
 Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
 
+" Code Completion
+Plug 'Valloric/YouCompleteMe', {
+    \ 'do': './install.py --clang-completer --gocode-completer'
+    \ }
+
 " Utilities
 Plug 'moll/vim-bbye'
 
