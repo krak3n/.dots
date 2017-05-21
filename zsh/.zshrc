@@ -15,6 +15,16 @@ plugins=(git autoevnv)
 source $ZSH/oh-my-zsh.sh
 
 #
+# GCloud SDk
+#
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/chris/google-cloud-sdk/path.zsh.inc' ]; then source '/home/chris/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/chris/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/chris/google-cloud-sdk/completion.zsh.inc'; fi
+
+#
 # Misc
 #
 
@@ -25,7 +35,7 @@ export EDITOR='vim'
 alias mjson='python -mjson.tool'
 
 # SFM Scores
-alias sfmscores="http http://20.0.10.171:38000/scores/week | jq -c '.scores[]' | json2csv -k displayName,score -p | csvlook"
+alias sfmscores="http http://localhost:5000/scores/week | jq -c '.scores[]' | json2csv -k position,displayName,score -p | csvlook"
 
 # Linuxbrew
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
