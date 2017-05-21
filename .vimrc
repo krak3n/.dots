@@ -32,7 +32,8 @@ Plug 'SirVer/ultisnips'
 Plug 'moll/vim-bbye'
 
 " Programming Languages
-Plug 'fatih/vim-go', { 'for': 'go' } " Go
+Plug 'editorconfig/editorconfig-vim'  " Language syntax overrides
+Plug 'fatih/vim-go', { 'for': 'go' }  " Go
 
 " Markup Formats
 Plug 'cespare/vim-toml' " TOML
@@ -161,6 +162,7 @@ set backspace=2
 " Clipboard
 "
 
+" TODO: Linux support
 " Use the system clipboard for yank / delete / paste operations
 if has('unnamedplus')
     set clipboard=unnamedplus
