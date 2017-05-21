@@ -17,6 +17,7 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'             " Project Draw
 Plug 'vim-airline/vim-airline'         " Buffer Line
 Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
+Plug 'Yggdroot/indentLine'             " Indentation
 
 " Code Completion
 Plug 'Valloric/YouCompleteMe', {
