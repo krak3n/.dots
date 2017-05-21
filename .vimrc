@@ -327,6 +327,13 @@ set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
 
 "
+" Indent Line
+"
+
+let g:indentLine_color_term = 8
+let g:indentLine_char = '¦'
+
+"
 " VimFiler
 "
 
