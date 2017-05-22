@@ -82,6 +82,9 @@ set relativenumber
 " Enable line numbers
 set number
 
+" Hilight current line
+set cursorline
+
 " Column width indicator
 set colorcolumn=+1
 
