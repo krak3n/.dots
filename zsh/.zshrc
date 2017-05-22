@@ -45,3 +45,6 @@ export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:$XDG_DATA_DIRS"
 
 # Autoenv
 source /home/linuxbrew/.linuxbrew/opt/autoenv/activate.sh
+
+alias cc='xclip -selection clipboard'
+alias cv='xclip -selection clipboard -o'
