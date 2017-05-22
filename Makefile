@@ -14,6 +14,7 @@ Xresources: ## link Xresources file
 
 vim: ## link vim configuration
 	ln -s $(DOTS)/.vimrc $(HOME)/.vimrc
+	ln -s $(DOTS)/.gvimrc $(HOME)/.gvimrc
 
 tmux: ## link tmux configuration files
 	ln -s $(DOTS)/tmux/.tmux.conf $(HOME)/.tmux.conf
