@@ -53,3 +53,7 @@ alias cv='xclip -selection clipboard -o'
 # Private Aliases
 [ -f .aliases ] && source .aliases
 
+# Tilix
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
+fi
