@@ -39,6 +39,9 @@ Plug 'fatih/vim-go', { 'for': 'go' }  " Go
 " Markup Formats
 Plug 'cespare/vim-toml' " TOML
 
+" Misc Formats
+Plug 'kylef/apiblueprint.vim' " API Blueprint
+
 " Load Plugins
 call plug#end()
 
