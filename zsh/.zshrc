@@ -9,10 +9,17 @@ ZSH=$HOME/.oh-my-zsh
 export ZSH_THEME="chris"
 
 # Set plugins
-plugins=(git autoevnv)
+plugins=(git autoevnv pip virtualenv virtualenvwrapper)
 
 # Source oh my zsh
 source $ZSH/oh-my-zsh.sh
+
+#
+# Python
+#
+
+# Virtualenv
+export DISABLE_VENV_CD=1
 
 #
 # GCloud SDk
