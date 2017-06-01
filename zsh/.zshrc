@@ -2,17 +2,41 @@
 # Oh My ZSH
 #
 
-# ZSH Home
-ZSH=$HOME/.oh-my-zsh
+#
+# General
+#
 
-# Set Theme
-export ZSH_THEME="chris"
+# Set default Editor to Vim
+export EDITOR='vim'
 
-# Set plugins
-plugins=(git autoevnv pip virtualenv virtualenvwrapper)
+# Pretty json
+alias mjson='python -mjson.tool'
 
-# Source oh my zsh
-source $ZSH/oh-my-zsh.sh
+# Copy / Paste integration aliases
+alias cc='xclip -selection clipboard'
+alias cv='xclip -selection clipboard -o'
+
+# Autoenv
+source /home/linuxbrew/.linuxbrew/opt/autoenv/activate.sh
+
+#
+# Linuxbrew
+#
+
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
+export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:$XDG_DATA_DIRS"
+
+#
+# GCloud SDk
+#
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/chris/.google-cloud-sdk/path.zsh.inc' ]; then source '/home/chris/.google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/chris/.google-cloud-sdk/completion.zsh.inc' ]; then source '/home/chris/.google-cloud-sdk/completion.zsh.inc'; fi
 
 #
 # Python
@@ -22,45 +46,36 @@ source $ZSH/oh-my-zsh.sh
 export DISABLE_VENV_CD=1
 
 #
-# GCloud SDk
+# Go
 #
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/chris/google-cloud-sdk/path.zsh.inc' ]; then source '/home/chris/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/chris/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/chris/google-cloud-sdk/completion.zsh.inc'; fi
+# Default GOPATH
+export GOPATH=~/.go
+export PATH=$PATH:$GOPATH/bin
 
 #
-# Misc
+# Tilix Terminal Emulator
 #
 
-# Set default Editor to Vim
-export EDITOR='vim'
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+    source /etc/profile.d/vte.sh
+fi
 
-# Pretty json
-alias mjson='python -mjson.tool'
+#
+# ZShell
+#
 
-# SFM Scores
-alias sfmscores="http http://localhost:5000/scores/week | jq -c '.scores[]' | json2csv -k position,displayName,score -p | csvlook"
+# ZSH Home
+ZSH=$HOME/.oh-my-zsh
 
-# Linuxbrew
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
-export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
-export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:$XDG_DATA_DIRS"
+# Set Theme
+export ZSH_THEME="chris"
 
-# Autoenv
-source /home/linuxbrew/.linuxbrew/opt/autoenv/activate.sh
+# Set plugins
+plugins=(git docker kubectl pip virtualenv virtualenvwrapper)
 
-# Copy / Paste integration aliases
-alias cc='xclip -selection clipboard'
-alias cv='xclip -selection clipboard -o'
+# Source oh my zsh
+source $ZSH/oh-my-zsh.sh
 
 # Private Aliases
-[ -f .aliases ] && source .aliases
-
-# Tilix
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-        source /etc/profile.d/vte.sh
-fi
+[ -f $HOME/.aliases ] && source $HOME/.aliases
