@@ -33,8 +33,10 @@ Plug 'SirVer/ultisnips'
 Plug 'moll/vim-bbye'
 
 " Programming Languages
-Plug 'editorconfig/editorconfig-vim'  " Language syntax overrides
-Plug 'fatih/vim-go', { 'for': 'go' }  " Go
+Plug 'editorconfig/editorconfig-vim'           " Language syntax overrides
+Plug 'fatih/vim-go', { 'for': 'go' }           " Go
+Plug 'klen/python-mode', { 'for': 'python' }   " Python Linting
+Plug 'fisadev/vim-isort', { 'for': 'python' }  " Python Import Sorting
 
 " Markup Formats
 Plug 'cespare/vim-toml' " TOML
@@ -414,3 +416,12 @@ if 'VIRTUAL_ENV' in os.environ:
   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   execfile(activate_this, dict(__file__=activate_this))
 EOF
+
+" Pymode
+let g:pymode = 1
+let g:pymode_rope = 0
+let g:pymode_doc = 0
+let g:pymode_lint_signs = 0
+let g:pymode_lint_ignore = "E702,E712,E501"
+let g:pymode_breakpoint = 0
+let g:pymode_folding = 0
