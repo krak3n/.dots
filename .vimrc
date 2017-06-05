@@ -18,16 +18,17 @@ Plug 'Shougo/vimfiler.vim'             " Project Draw
 Plug 'vim-airline/vim-airline'         " Buffer Line
 Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
 Plug 'Yggdroot/indentLine'             " Indentation
-Plug 'jiangmiao/auto-pairs'            " Auto airs
+Plug 'jiangmiao/auto-pairs'            " Auto pairs
+
+" Snippets
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 
 " Code Completion
 Plug 'Valloric/YouCompleteMe', {
     \ 'do': './install.py --clang-completer --gocode-completer'
     \ }
 Plug 'ervandew/supertab' " For code completion
-
-" Snippets
-Plug 'SirVer/ultisnips'
 
 " Utilities
 Plug 'moll/vim-bbye'
@@ -336,6 +337,15 @@ let g:unite_force_overwrite_statusline = 0
 
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
+
+"
+" Snippets
+"
+
+let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "
 " Indent Line
