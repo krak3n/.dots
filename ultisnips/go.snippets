@@ -1,0 +1,17 @@
+snippet funct "Table Test" b
+func Test${1:name}(t *testing.T) {
+	type tc struct{
+		tname string
+	}
+	tt := []tc{
+		{
+			tname: "",
+		},
+	}
+	for _, tc := range tt {
+		t.Run(tc.tname, func(t *testing.T) {
+
+		})
+	}
+}
+endsnippet
