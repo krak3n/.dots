@@ -19,6 +19,7 @@ Plug 'vim-airline/vim-airline'         " Buffer Line
 Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
 Plug 'Yggdroot/indentLine'             " Indentation
 Plug 'jiangmiao/auto-pairs'            " Auto pairs
+Plug 'qpkorr/vim-bufkill'              " Buffer removal
 
 " Snippets
 Plug 'honza/vim-snippets'
@@ -29,9 +30,6 @@ Plug 'Valloric/YouCompleteMe', {
     \ 'do': './install.py --clang-completer --gocode-completer'
     \ }
 Plug 'ervandew/supertab' " For code completion
-
-" Utilities
-Plug 'moll/vim-bbye'
 
 " Programming Languages
 Plug 'editorconfig/editorconfig-vim'           " Language syntax overrides
@@ -234,7 +232,7 @@ nmap <leader>w :w<cr>
 nmap <leader>W :w<cr>
 
 " Close current buffer
-nnoremap <leader>x :Bdelete<CR>
+nnoremap <leader>x :BW<CR>
 
 " Copy current path to file
 nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
