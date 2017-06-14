@@ -37,11 +37,19 @@ Plug 'fatih/vim-go', { 'for': 'go' }           " Go
 Plug 'klen/python-mode', { 'for': 'python' }   " Python Linting
 Plug 'fisadev/vim-isort', { 'for': 'python' }  " Python Import Sorting
 
+" Data interchange formats
+Plug 'elzr/vim-json' " JSON
+
 " Markup Formats
 Plug 'cespare/vim-toml' " TOML
+Plug 'saltstack/salt-vim' " Salt SLS Format
 
 " Misc Formats
 Plug 'kylef/apiblueprint.vim' " API Blueprint
+Plug 'Glench/Vim-Jinja2-Syntax' " Jinja
+
+" Misc
+Plug 'kburdett/vim-nuuid' " UUID Generation
 
 " Load Plugins
 call plug#end()
@@ -433,3 +441,9 @@ let g:pymode_lint_signs = 0
 let g:pymode_lint_ignore = "E702,E712,E501"
 let g:pymode_breakpoint = 0
 let g:pymode_folding = 0
+
+"
+" JSON
+"
+
+let g:vim_json_syntax_conceal = 0
