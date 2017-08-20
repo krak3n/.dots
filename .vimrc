@@ -20,6 +20,7 @@ Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
 Plug 'Yggdroot/indentLine'             " Indentation
 Plug 'jiangmiao/auto-pairs'            " Auto pairs
 Plug 'qpkorr/vim-bufkill'              " Buffer removal
+Plug 'tpope/vim-fugitive'              " Git interface
 
 " Snippets
 Plug 'honza/vim-snippets'
@@ -96,7 +97,10 @@ set relativenumber
 set number
 
 " Hilight current line
-set cursorline
+" set cursorline
+
+" Lazy UI/Redraw
+set lazyredraw
 
 " Column width indicator
 set colorcolumn=+1
@@ -265,6 +269,21 @@ func! DeleteTrailingWS()
     exe "normal `z"
 endfunc
 autocmd BufWrite * :call DeleteTrailingWS()
+
+"
+" Clear registers
+"
+
+function! ClearRegisters()
+    let regs='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-="*+'
+    let i=0
+    while (i<strlen(regs))
+        exec 'let @'.regs[i].'=""'
+        let i=i+1
+    endwhile
+endfunction
+
+command! ClearRegisters call ClearRegisters()
 
 "
 " Unite Config

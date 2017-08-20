@@ -13,8 +13,8 @@
     ammend = commit --amend
     unstage = reset HEAD --
     last = log -1 HEAD
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-    up = pull 
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an %ae>%Creset' --abbrev-commit
+    up = pull
 [color]
     ui = auto
 [color "diff"]
