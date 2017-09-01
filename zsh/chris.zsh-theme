@@ -5,12 +5,12 @@
 #
 
 # Colours
-YELLOW=003
-GREY=008
-BLUE=004
-RED=001
-MAGENTA=005
-GREEN=002
+YELLOW=011
+GREY=007
+BLUE=012
+RED=009
+MAGENTA=013
+GREEN=010
 
 # Virtualenv
 function virtualenv_info {
