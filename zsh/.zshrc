@@ -20,26 +20,9 @@ alias cc='xclip -selection clipboard'
 alias cv='xclip -selection clipboard -o'
 
 # Autoenv
-source /home/linuxbrew/.linuxbrew/opt/autoenv/activate.sh
+[[ -s "/usr/local/bin/activate.sh" ]] && source "/usr/local/bin/activate.sh"
 
-#
-# Linuxbrew
-#
 
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
-export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
-export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:$XDG_DATA_DIRS"
-
-#
-# GCloud SDk
-#
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/chris/.google-cloud-sdk/path.zsh.inc' ]; then source '/home/chris/.google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/chris/.google-cloud-sdk/completion.zsh.inc' ]; then source '/home/chris/.google-cloud-sdk/completion.zsh.inc'; fi
 
 #
 # Python
@@ -52,17 +35,7 @@ export DISABLE_VENV_CD=1
 # Go
 #
 
-# Default GOPATH
-export GOPATH=~/.go
-export PATH=$PATH:$GOPATH/bin
-
-#
-# Tilix Terminal Emulator
-#
-
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-    source /etc/profile.d/vte.sh
-fi
+[[ -s "/home/chris/.gvm/scripts/gvm" ]] && source "/home/chris/.gvm/scripts/gvm"
 
 #
 # ZShell
@@ -75,10 +48,17 @@ ZSH=$HOME/.oh-my-zsh
 export ZSH_THEME="chris"
 
 # Set plugins
-plugins=(git docker kubectl pip virtualenv virtualenvwrapper)
+plugins=(git docker autoenv pip kubectl)
 
 # Source oh my zsh
 source $ZSH/oh-my-zsh.sh
 
 # Private Aliases
 [ -f $HOME/.aliases ] && source $HOME/.aliases
+
+#
+# GCloud SDk
+#
+
+[ -f $HOME/.gcloud/google-cloud-sdk/path.zsh.inc ] && source $HOME/.gcloud/google-cloud-sdk/path.zsh.inc
+[ -f $HOME/.gcloud/google-cloud-sdk/completion.zsh.inc ] && source $HOME/.gcloud/google-cloud-sdk/completion.zsh.inc

@@ -9,7 +9,7 @@ set nocompatible
 call plug#begin('~/.vim/plugged')
 
 " Theme
-Plug 'fneu/breezy'
+Plug 'joshdick/onedark.vim'
 
 " IDE Features
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
@@ -71,8 +71,9 @@ endif
 set background=light
 
 " Colour Scheme
-" let g:onedark_termcolors=16
-colorscheme breezy
+let g:onedark_termcolors=16
+let g:onedark_terminal_italics=1
+colorscheme onedark
 
 "
 " Generic Configuration
@@ -421,7 +422,7 @@ let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#wordcount#enabled = 0
-let g:airline_theme = 'breezy'
+let g:airline_theme = 'onedark'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tagbar#enabled = 1
 
