@@ -62,3 +62,11 @@ source $ZSH/oh-my-zsh.sh
 
 [ -f $HOME/.gcloud/google-cloud-sdk/path.zsh.inc ] && source $HOME/.gcloud/google-cloud-sdk/path.zsh.inc
 [ -f $HOME/.gcloud/google-cloud-sdk/completion.zsh.inc ] && source $HOME/.gcloud/google-cloud-sdk/completion.zsh.inc
+
+_direnv_hook() {
+  eval "$(direnv export zsh)";
+}
+typeset -ag precmd_functions
+if [[ -z $precmd_functions[(r)_direnv_hook] ]]; then
+  precmd_functions+=_direnv_hook;
+fi
