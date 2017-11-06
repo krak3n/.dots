@@ -30,6 +30,8 @@ alias cv='xclip -selection clipboard -o'
 
 # Virtualenv
 export DISABLE_VENV_CD=1
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+source /usr/local/bin/virtualenvwrapper.sh
 
 #
 # Go
@@ -47,9 +49,6 @@ ZSH=$HOME/.oh-my-zsh
 # Set Theme
 export ZSH_THEME="chris"
 
-# Set plugins
-plugins=(git docker autoenv pip kubectl)
-
 # Source oh my zsh
 source $ZSH/oh-my-zsh.sh
 
@@ -62,11 +61,7 @@ source $ZSH/oh-my-zsh.sh
 
 [ -f $HOME/.gcloud/google-cloud-sdk/path.zsh.inc ] && source $HOME/.gcloud/google-cloud-sdk/path.zsh.inc
 [ -f $HOME/.gcloud/google-cloud-sdk/completion.zsh.inc ] && source $HOME/.gcloud/google-cloud-sdk/completion.zsh.inc
+[ -f $HOME/.gcloud/google-cloud-sdk/bin/kubectl ] && source <(kubectl completion zsh)
 
-_direnv_hook() {
-  eval "$(direnv export zsh)";
-}
-typeset -ag precmd_functions
-if [[ -z $precmd_functions[(r)_direnv_hook] ]]; then
-  precmd_functions+=_direnv_hook;
-fi
+# Set plugins
+plugins=(ssh git go docker autoenv pip virtualenvwrapper)
