@@ -34,4 +34,4 @@ PROMPT_END="
 %{$FG[$MAGENTA]%}❯%{$FX[reset]%} "
 
 # Define prompts.
-PROMPT='${ret_status}$(virtualenv_info) $PROMPT_USER %{$FG[$GREY]%}%~%{$FX[reset]%}$(git_prompt_info) $PROMPT_END'
+PROMPT='${ret_status}$(virtualenv_info) $PROMPT_USER %{$FG[$GREY]%}%.%{$FX[reset]%}$(git_prompt_info) $PROMPT_END'
