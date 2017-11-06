@@ -17,9 +17,10 @@ Clone into `~/.dots`. Run `make` all to set up all the symbolic links.
             --enable-luainterp=yes \
             --enable-cscope \
             --with-x \
+            --enable-gui=auto \
             --enable-gtk2-check \
             --enable-gnome-check \
             --with-tlib=ncurses \
             --with-compiledby="Chris Reeves <hello@chris.reeves.io>" \
-            --prefix=/usr
+            --prefix=/usr/local
 ```
