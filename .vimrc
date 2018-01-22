@@ -444,19 +444,12 @@ let g:go_auto_type_info = 1
 let g:go_term_enabled = 1
 let g:go_gocode_unimported_packages = 1
 
+map <leader>gi :GoInstall<cr>
+map <leader>gt :GoTest<cr>
+
 "
 " Python
 "
-
-" Python with Virtual Env Support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
 
 " Pymode
 let g:pymode = 1

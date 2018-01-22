@@ -63,5 +63,13 @@ source $ZSH/oh-my-zsh.sh
 [ -f $HOME/.gcloud/google-cloud-sdk/completion.zsh.inc ] && source $HOME/.gcloud/google-cloud-sdk/completion.zsh.inc
 [ -f $HOME/.gcloud/google-cloud-sdk/bin/kubectl ] && source <(kubectl completion zsh)
 
+#
+# Helm
+#
+
+if type helm > /dev/null; then
+    source <(helm completion zsh)
+fi
+
 # Set plugins
 plugins=(ssh git go docker autoenv pip virtualenvwrapper)
