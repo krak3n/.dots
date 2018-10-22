@@ -15,23 +15,46 @@ GREEN=002
 # Virtualenv
 function virtualenv_info {
     if [[ -n $VIRTUAL_ENV ]] then
-        echo "%{$FX[reset]%} %{$FG[$GREY]%}`basename $VIRTUAL_ENV`%{$FX[reset]%} %{$FG[$MAGENTA]%}⌁%{$FX[reset]%}"
+        echo "%{$FX[reset]%} %{$FG[$GREY]%}`basename $VIRTUAL_ENV`%{$FX[reset]%} %{$FG[$MAGENTA]%}%{$FX[reset]%}"
+    fi
+}
+
+# Go Version'
+function go_version {
+	if [[ -n $gvm_go_name ]] then
+		echo " %{$FX[reset]%}%{$FG[$BLUE]%}%{$FX[reset]%} %{$FG[$GREY]%}$gvm_go_name%{$FX[reset]%}"
+	fi
+}
+
+# GCloud Account / Project
+function gcloud_context {
+	if (( $+commands[gcloud] )) then
+		ACCOUNT=`gcloud config list --format 'value(core.account)' 2>/dev/null`
+		PROJECT=`gcloud config list --format 'value(core.project)' 2>/dev/null`
+		echo "%{$FX[reset]%}%{$FG[$BLUE]%}%{$FX[reset]%} %{$FG[$GREY]%}$ACCOUNT/$PROJECT%{$FX[reset]%}"
+	fi
+}
+
+# Kubernetes Context
+function k8s_context {
+    if [[ -n $ZSH_KUBECTL_PROMPT ]] then
+        echo " %{$FX[reset]%}%{$FG[$BLUE]%}ﴱ%{$FX[reset]%} %{$FG[$GREY]%}$ZSH_KUBECTL_PROMPT%{$FX[reset]%}"
     fi
 }
 
 # Return Status Hinting
-local ret_status="%(?:%{$FG[$BLUE]%}➜:%{$FG[$RED]%}➜)"
+RET_STATUS="%(?:%{$FG[$GREEN]%}➜:%{$FG[$RED]%}➜)%{$FX[reset]%}"
 
 # Git Prompt
-ZSH_THEME_GIT_PROMPT_PREFIX="%(?:%{$FG[$BLUE]%}➜:%{$FG[$RED]%}➜) %{$FG[$BLUE]%}❯%{$FX[reset]%} %{$FG[$YELLOW]%}"
+ZSH_THEME_GIT_PROMPT_PREFIX=" %{$FG[$BLUE]%}%{$FX[reset]%} %{$FG[$YELLOW]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$FX[reset]%}"
-ZSH_THEME_GIT_PROMPT_DIRTY=" %{$FG[$RED]%}●%{$FX[reset]%}"
-ZSH_THEME_GIT_PROMPT_CLEAN=" %{$FG[$GREEN]%}●%{$FX[reset]%}"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %{$FG[$RED]%}%{$FX[reset]%}"
 
 # Prompts
-PROMPT_USER="%{$FG[$GREY]%}%n%{$FX[reset]%} %{$FG[$YELLOW]%}❯%{$FX[reset]%}"
-PROMPT_END="
-%{$FG[$MAGENTA]%}❯%{$FX[reset]%} "
+PROMPT_USER="%{$FG[$BLUE]%}%{$FX[reset]%} %{$FG[$GREY]%}%n%{$FX[reset]%} %{$FG[$YELLOW]%}%{$FX[reset]%}"
+# PROMPT_END="
+# %{$FG[$MAGENTA]%}❯%{$FX[reset]%} "
 
-# Define prompts.
-PROMPT='${ret_status}$(virtualenv_info) $PROMPT_USER %{$FG[$GREY]%}%.%{$FX[reset]%}$(git_prompt_info) $PROMPT_END'
+PROMPT='$(gcloud_context)$(k8s_context)$(virtualenv_info)
+$PROMPT_USER %{$FG[$GREY]%}%.%{$FX[reset]%}$(go_version)$(git_prompt_info)
+$RET_STATUS '
