@@ -1,20 +1,22 @@
 [user]
     name = Chris Reeves
     email = chris@thisissoon.com
+	signingkey = 0D7AD5E5B70B5254
 [core]
     editor = vim
     filemode = false
 [alias]
     co = checkout
     br = branch
-    cm = commit
+    cm = commit -S
     st = status
     ap = add -p
-    ammend = commit --amend
+    ammend = commit --amend -S
     unstage = reset HEAD --
     last = log -1 HEAD
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an %ae>%Creset' --abbrev-commit
     up = pull
+	lt = describe --tags --abbrev=0
 [color]
     ui = auto
 [color "diff"]
@@ -32,9 +34,9 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
-[url "git@git.soon.build:"]
-	insteadOf = https://git.soon.build/
 [rebase]
 	autoStash = true
 [pull]
 	rebase = true
+[url "git@gitlab.com:"]
+    insteadOf = https://gitlab.com/

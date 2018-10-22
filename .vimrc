@@ -11,224 +11,206 @@ call plug#begin('~/.vim/plugged')
 " Theme
 Plug 'joshdick/onedark.vim'
 
-" IDE Features
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimfiler.vim'             " Project Draw
-Plug 'vim-airline/vim-airline'         " Buffer Line
-Plug 'vim-airline/vim-airline-themes'  " Themes for Airline
-Plug 'Yggdroot/indentLine'             " Indentation
-Plug 'jiangmiao/auto-pairs'            " Auto pairs
-Plug 'qpkorr/vim-bufkill'              " Buffer removal
-Plug 'tpope/vim-fugitive'              " Git interface
+" Code Completion
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
-" Snippets
-Plug 'honza/vim-snippets'
+" Buffer removal
+Plug 'qpkorr/vim-bufkill'
+
+" Airline
+Plug 'vim-airline/vim-airline'
+
+" Nerd Tree
+Plug 'scrooloose/nerdtree'
+
+" Surround
+Plug 'tpope/vim-surround'
+
+" Auto brakets
+Plug 'jiangmiao/auto-pairs'
+
+" Indentation Guides
+Plug 'Yggdroot/indentLine'
+
+" Snippers
 Plug 'SirVer/ultisnips'
 
-" Code Completion
-Plug 'Valloric/YouCompleteMe', {
-    \ 'do': './install.py --clang-completer --gocode-completer'
-    \ }
-Plug 'ervandew/supertab' " For code completion
+" Editor Config
+Plug 'sgur/vim-editorconfig'
 
-" Programming Languages
-Plug 'editorconfig/editorconfig-vim'           " Language syntax overrides
-Plug 'fatih/vim-go', { 'for': 'go' }           " Go
-Plug 'klen/python-mode', { 'for': 'python' }   " Python Linting
-Plug 'fisadev/vim-isort', { 'for': 'python' }  " Python Import Sorting
+" Dev Icons
+Plug 'ryanoasis/vim-devicons'
 
-" Data interchange formats
-Plug 'elzr/vim-json' " JSON
+" Go
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
 
-" Markup Formats
-Plug 'cespare/vim-toml' " TOML
-Plug 'saltstack/salt-vim' " Salt SLS Format
+" Rust
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'sebastianmarkow/deoplete-rust', { 'for': 'rust' }
 
-" Misc Formats
-Plug 'kylef/apiblueprint.vim' " API Blueprint
-Plug 'Glench/Vim-Jinja2-Syntax' " Jinja
+" Python
+Plug 'klen/python-mode', { 'for': 'python' }
+Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 
-" Misc
-Plug 'kburdett/vim-nuuid' " UUID Generation
+" HTML
+Plug 'mattn/emmet-vim', { 'for': 'html' }
+
+" Toml
+Plug 'cespare/vim-toml', { 'for': 'toml' }
+
+" JSON
+Plug 'elzr/vim-json', { 'for': 'json' }
+
+" QML
+Plug 'peterhoeg/vim-qml', { 'for': 'qml' }
+
+" Mustache
+Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
+
+" Nginx
+Plug 'chr4/nginx.vim'
 
 " Load Plugins
 call plug#end()
 
 "
-" Theme / Colour Configuration
-"
+" Theme
 "
 
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+set background=light
 if (has("termguicolors"))
   set termguicolors
 endif
 
-" Background Colour
-set background=light
-
-" Colour Scheme
 let g:onedark_termcolors=16
 let g:onedark_terminal_italics=1
+
 colorscheme onedark
 
 "
-" Generic Configuration
+" General
 "
 
-" Explicitly set encoding to utf-8
-set encoding=utf-8
-
-" Add one virtual space at the end of a line
-set virtualedit=onemore
-
-" Syntac Hilighting
-syntax on
-
-" Enable indentation
-filetype plugin indent on
-
-" Enable relative line numbering
-set relativenumber
-
-" Enable line numbers
-set number
-
-" Hilight current line
-" set cursorline
-
-" Lazy UI/Redraw
-set lazyredraw
-
-" Column width indicator
-set colorcolumn=+1
-
-" Do not show mode
-set noshowmode
-
-" Always show status line
-set laststatus=2
-
-" Allow changing buffer without saving
-set hidden
-
-" Set to auto read when file is changed elsewhere
-set autoread
-
-" Show matching brackets
-set showmatch
-
-" Do not conceal
-set conceallevel=0
-
-" Show incomplete commands
-set showcmd
-
-" Turn back up off
-set nobackup
-set nowritebackup
-set noswapfile
+set encoding=utf-8           " Explicitly set encoding to utf-8
+set mouse=nv                 " Disable mouse in command-line mode
+set modeline                 " automatically setting options from modelines
+set report=0                 " Don't report on line changes
+" set errorbells               " Trigger bell on error
+set visualbell               " Use visual bell instead of beeping
+set t_vb=
+set hidden                   " hide buffers when abandoned instead of unload
+set fileformats=unix,dos,mac " Use Unix as the standard file type
+set magic                    " For regular expressions turn magic on
+set path=.,**                " Directories to search when using gf
+set virtualedit=block        " Position cursor anywhere in visual block
+set synmaxcol=1000           " Don't syntax highlight long lines
+set formatoptions+=1         " Don't break lines after a one-letter word
+set formatoptions-=t         " Don't auto-wrap text
+set directory=/dev/shm       " Write swap files to memory, not disk
+set conceallevel=0           " Disabled autohide in vim-json
 
 "
-" TAB Settings
-" TABS are by default set to 4 spaces
+" Tabs and Indents
 "
 
-set expandtab
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
-set smarttab
-
-"
-" Text Display Settings
-"
-
-set linebreak
-set textwidth=0
-set wrapmargin=0
-set autoindent
-set nowrap
-set whichwrap+=h,l,<,>,[,]
-set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
-set showbreak=↪
+set textwidth=80    " Text width maximum chars before wrapping
+set noexpandtab     " Don't expand tabs to spaces.
+set tabstop=4       " The number of spaces a tab is
+set softtabstop=4   " While performing editing operations
+set shiftwidth=4    " Number of spaces to use in auto(indent)
+set smarttab        " Tab insert blanks according to 'shiftwidth'
+set autoindent      " Use same indenting on new lines
+set smartindent     " Smart autoindenting on new lines
+set shiftround      " Round indent to multiple of 'shiftwidth'
 
 "
 " Searching
 "
 
-" case insensitive
-set ignorecase
-
-" use case if any caps used
-set smartcase
-
-" show match as search proceeds
-set incsearch
-
-" search highlighting
-set hlsearch
-
-" Easier regex
-set magic
-
-" Backspace Fix
-set backspace=2
+set ignorecase      " Search ignoring case
+set smartcase       " Keep case when searching with *
+set infercase       " Adjust case in insert completion mode
+set incsearch       " Incremental search
+set hlsearch        " Highlight search results
+set wrapscan        " Searches wrap around the end of the file
+set showmatch       " Jump to matching bracket
+set matchpairs+=<:> " Add HTML brackets to pair matching
+set matchtime=1     " Tenths of a second to show the matching paren
+set cpoptions-=m    " showmatch will wait 0.5s or until a char is typed
 
 "
-" Clipboard
+" Behavior
 "
 
-" TODO: Linux support
-" Use the system clipboard for yank / delete / paste operations
-if has('unnamedplus')
-    set clipboard=unnamedplus
-else
-    set clipboard=unnamed
-endif
+set nowrap                      " No wrap by default
+set linebreak                   " Break long lines at 'breakat'
+set breakat=\ \	;:,!?           " Long lines break chars
+set nostartofline               " Cursor in same column for few commands
+set whichwrap+=h,l,<,>,[,],~    " Move to following line on certain keys
+set splitbelow splitright       " Splits open bottom right
+set switchbuf=useopen,usetab    " Jump to the first open window in any tab
+set switchbuf+=vsplit           " Switch buffer behavior to vsplit
+set backspace=indent,eol,start  " Intuitive backspacing in insert mode
+set diffopt=filler,iwhite       " Diff mode: show fillers, ignore white
+set showfulltag                 " Show tag and tidy search in completion
+set complete=.                  " No wins, buffs, tags, include scanning
+set completeopt=menuone         " Show menu even for one item
+set completeopt+=noselect       " Do not select a match in the menu
 
 "
-" Spits
+" Editor UI Appearance
 "
 
-" Solid line for vsplit separator
-set fcs=vert:│
+set noshowmode          " Don't show mode in cmd window
+set shortmess=aoOTI     " Shorten messages and don't show intro
+set scrolloff=2         " Keep at least 2 lines above/below
+set sidescrolloff=5     " Keep at least 5 lines left/right
+set number              " Show line numbers
+set relativenumber      " Relative line numbers
+set noruler             " Disable default status ruler
+set list                " Show hidden characters
 
-" Always splits to the right and below
-set splitright
-set splitbelow
+set showtabline=2       " Always show the tabs line
+set winwidth=30         " Minimum width for active window
+set winheight=1         " Minimum height for active window
+set pumheight=15        " Pop-up menu's line height
+set helpheight=12       " Minimum help window height
+set previewheight=12    " Completion preview height
 
-" Set sensible heights for splits
-set winheight=50
+set noshowcmd           " Don't show command in status line
+set cmdheight=2         " Height of the command line
+set cmdwinheight=5      " Command-line lines
+set noequalalways       " Don't resize windows on split or close
+set laststatus=2        " Always show a status line
+set colorcolumn=80      " Highlight the 80th character limit
+set display=lastline
 
 "
-" tmux
+" UI elements
 "
 
-" Cursor settings. This makes terminal vim sooo much nicer!
-" Tmux will only forward escape sequences to the terminal if surrounded by a DCS
-" sequence
-if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
+set showbreak=↪\
+set listchars=tab:¦\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 
 "
-" Key Mapping
+" Syntax
 "
 
-" Buffer Cycle
-map <leader>[ :bprevious<cr>
-map <leader>] :bnext<cr>
+syntax on
+filetype plugin indent on
 
-" Arrow keys do nothing, EVIL arrows
+"
+" Key Bindings
+"
+
+" Disable arrow keys
 noremap  <Up> ""
 noremap! <Up> <Esc>
 noremap  <Down> ""
@@ -238,30 +220,41 @@ noremap! <Left> <Esc>
 noremap  <Right> ""
 noremap! <Right> <Esc>
 
-" Write current buffer
-nmap <leader>w :w<cr>
-
-" Force write current buffer
-nmap <leader>W :w<cr>
-
-" Close current buffer
-nnoremap <leader>x :BW<CR>
-
-" Copy current path to file
-nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
-      \ path '".expand("%:p")."' to clipboard"<cr>
-
-" Map space to search and ctrl-space to reverse search
-map <C-space> ?
-
+" Buffer Cycle
+map <leader>[ :bprevious<cr>
+map <leader>] :bnext<cr>
+"
 " Window movement
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-" Clear search
-nnoremap \ :noh<return>
+" Close current buffer
+nnoremap <leader>x :BW<CR>
+
+" Toggle spellchecking
+function! ToggleSpellCheck()
+  set spell! spelllang=en_gb
+  if &spell
+    echo "Spellcheck ON"
+  else
+    echo "Spellcheck OFF"
+  endif
+endfunction
+
+nnoremap <F6> :call ToggleSpellCheck()<CR>
+
+"
+" System Clipboard
+"
+
+" Use the system clipboard for yank / delete / paste operations
+if has('unnamedplus')
+    set clipboard=unnamedplus
+else
+    set clipboard=unnamed
+endif
 
 "
 " Delete Trailing White Space
@@ -275,159 +268,85 @@ endfunc
 autocmd BufWrite * :call DeleteTrailingWS()
 
 "
-" Clear registers
+" Deoplete
 "
 
-function! ClearRegisters()
-    let regs='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-="*+'
-    let i=0
-    while (i<strlen(regs))
-        exec 'let @'.regs[i].'=""'
-        let i=i+1
-    endwhile
-endfunction
-
-command! ClearRegisters call ClearRegisters()
+let g:deoplete#enable_at_startup = 1
+inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
+inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : <SID>check_back_space() ? "\<S-TAB>" : deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+let col = col('.') - 1
+return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
 
 "
-" Unite Config
+" Ultisnips
 "
 
-" Map space to the prefix for Unite
-nnoremap [unite] <Nop>
-nmap <space> [unite]
-
-" Unite Settings Function
-function! s:unite_settings()
-    imap <buffer> <C-j> <Plug>(unite_select_next_line)
-    imap <buffer> <C-k> <Plug>(unite_select_previous_line)
-    imap <silent><buffer><expr> <C-x> unite#do_action('split')
-    imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-    imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
-    nmap <buffer> <ESC> <Plug>(unite_exit)
-endfunction
-
-" Extra configuration with settings function
-autocmd FileType unite call s:unite_settings()
-
-" Use the fuzzy matcher for everything
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-
-" Use the rank sorter for everything
-call unite#filters#sorter_default#use(['sorter_rank'])
-
-" Ignore
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git/',
-      \ 'git5/.*/review/',
-      \ 'tmp/',
-      \ '.DS_Store',
-      \ '.sass-cache',
-      \ 'vendor/',
-      \ 'node_modules/',
-      \ 'bower_components/',
-      \ 'dist/',
-      \ '.git5_specs/',
-      \ '.pyc',
-      \ ], '\|'))
-
-" General fuzzy search
-nnoremap <silent> [unite]<space> :<C-u>Unite
-      \ -buffer-name=files -start-insert buffer file_rec/async:!<cr>
-
-" Yank history
-nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
-
-" Grep
-nnoremap <silent> [unite]/ :<C-u>Unite grep:.<cr>
-
-" Start in insert mode
-let g:unite_enable_start_insert = 1
-
-" Open in bottom right
-let g:unite_split_rule = "botright"
-
-" Enable yank history
-let g:unite_source_history_yank_enable = 1
-
-" Enable short source name in window
-let g:unite_enable_short_source_names = 0
-
-" Shorten the default update date of 500ms
-let g:unite_update_time = 100
-
-" Do not overwrite status line
-let g:unite_force_overwrite_statusline = 0
-
-"
-" YouCompleteMe
-"
-
-set completeopt-=preview
-let g:ycm_add_preview_to_completeopt = 0
-
-"
-" Snippets
-"
-
-let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
+let g:UltiSnipsSnippetsDir="~/.ultisnips"
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "
-" Indent Line
+" Airline
 "
 
-let g:indentLine_color_term = 8
-let g:indentLine_char = '¦'
-
-"
-" VimFiler
-"
-
-" <tab> toggles vim filer draw
-nnoremap <silent> <tab> :VimFilerExplorer<cr>
-
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_safe_mode_by_default = 0
-let g:vimfiler_force_overwrite_statusline = 0
-let g:vimfiler_draw_files_limit = 1000
-let g:vimfiler_ignore_pattern='\%(.cache\|.coverage\|.bat\|.BAK\|.DAT\|.pyc\|.egg-info\)$\|'.
-  \ '^\%(.vagrant\)$\|'.
-  \ '^\%(.gitkeep\)$\|'.
-  \ '^\%(.ebextensions\|.elasticbeanstalk\|Procfile\)$\|'.
-  \ '^\%(.git\|.tmp\|__pycache__\|.DS_Store\|.tox\|.idea\|.ropeproject\)$'
-let g:vimfiler_tree_leaf_icon = ' '
-let g:vimfiler_tree_opened_icon = '▼'
-let g:vimfiler_tree_closed_icon = '▷'
-let g:vimfiler_file_icon = '-'
-let g:vimfiler_readonly_file_icon = '✕'
-let g:vimfiler_marked_file_icon = '❯'
-let g:vimfiler_execute_file_list = {'jpg': 'open', 'jpeg': 'open', 'gif': 'open', 'bmp': 'open', 'html': 'open', 'ppt': 'open', 'pdf': 'open', 'png': 'open', 'ico': 'open'}
-
-"
-" Vim Airline
-"
-
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline#extensions#tabline#buffer_nr_show = 0
 let g:airline_skip_empty_sections = 0
-let g:airline#extensions#tabline#fnamemod = ':.'
-let g:airline#extensions#tabline#fnamecollapse = 0
 let g:airline#extensions#syntastic#enabled = 0
 let g:airline_detect_iminsert=0
 let g:airline#extensions#tmuxline#enabled = 0
+let g:airline#extensions#wordcount#enabled = 0
+let g:airline_theme = 'onedark'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tagbar#enabled = 1
+" Enable tab line
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tabs = 0
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#wordcount#enabled = 0
-let g:airline_theme = 'onedark'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tabline#show_close_button = 1
+let g:airline#extensions#tabline#buffer_nr_show = 0
+let g:airline#extensions#tabline#fnamemod = ':.'
+let g:airline#extensions#tabline#fnamecollapse = 0
+
+"
+" NERDTree
+"
+
+map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeCascadeSingleChildDir = 0
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
+
+let g:NERDTreeNaturalSort = 0
+let g:NERDTreeSortHiddenFirst = 1
+let g:NERDTreeCaseSensitiveSort = 1
+let g:NERDTreeShowHidden = 1
+
+"
+" Indentation Guides
+"
+
+let g:indentLine_enabled = 1
+let g:indentLine_color_term = 8
+let g:indentLine_char = '¦'
+
+"
+" Editor Config
+"
+
+let g:editorconfig_verbose = 1
+
+"
+" Dev Icons
+"
+
+let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ""
 
 "
 " Go
@@ -435,30 +354,27 @@ let g:airline#extensions#tagbar#enabled = 1
 
 let g:go_fmt_command = "goimports"
 let g:go_highlight_types = 1
-let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
+let g:go_highlight_variable_declarations = 1
 let g:go_auto_type_info = 1
 let g:go_term_enabled = 1
 let g:go_gocode_unimported_packages = 1
-
 map <leader>gi :GoInstall<cr>
-map <leader>gt :GoTest<cr>
+map <leader>gb :GoBuild -i<cr>
+map <leader>gr :GoRun<cr>
 
 "
-" Python
+" Rust
 "
 
-" Pymode
-let g:pymode = 1
-let g:pymode_rope = 0
-let g:pymode_doc = 0
-let g:pymode_lint_signs = 0
-let g:pymode_lint_ignore = "E702,E712,E501"
-let g:pymode_breakpoint = 0
-let g:pymode_folding = 0
+let g:rustfmt_autosave = 1
+let g:rust_clip_command = 'xclip -selection clipboard'
+let g:ycm_rust_src_path = '/usr/src/rust/src'
+
 
 "
 " JSON

@@ -9,8 +9,9 @@ func Test${1:name}(t *testing.T) {
 		},
 	}
 	for _, tc := range tt {
+		tc := tc
 		t.Run(tc.tname, func(t *testing.T) {
-
+			t.Parallel()
 		})
 	}
 }
