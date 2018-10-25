@@ -52,14 +52,15 @@ ZSH_THEME_GIT_PROMPT_DIRTY=" %{$FG[$RED]%}%{$FX[reset]%}"
 
 # Prompts
 PROMPT_USER="%{$FG[$BLUE]%}%{$FX[reset]%} %{$FG[$GREY]%}%n%{$FX[reset]%} %{$FG[$YELLOW]%}%{$FX[reset]%}"
-PROMPT_DEFAULT="$PROMPT_USER %{$FG[$GREY]%}%.%{$FX[reset]%}$(go_version)$(git_prompt_info)
-$RET_STATUS "
+PROMPT_START="$PROMPT_USER %{$FG[$GREY]%}%.%{$FX[reset]%}"
 
 # Default Prompt
-PROMPT="$PROMPT_DEFAULT"
+PROMPT='$PROMPT_START$(go_version)$(git_prompt_info)
+$RET_STATUS '
 
 # Add k8s context to prompt if enabled
 if [[ -v THEME_K8S_CONTEXT_PROMPT ]]; then
 PROMPT='$(k8s_context)
-$PROMPT_DEFAULT'
+$PROMPT_START$(go_version)$(git_prompt_info)
+$RET_STATUS '
 fi
