@@ -38,7 +38,7 @@ function gcloud_context {
 # Kubernetes Context
 function k8s_context {
     if [[ -n $ZSH_KUBECTL_PROMPT ]] then
-        echo " %{$FX[reset]%}%{$FG[$BLUE]%}ﴱ%{$FX[reset]%} %{$FG[$GREY]%}$ZSH_KUBECTL_PROMPT%{$FX[reset]%}"
+        echo "%{$FX[reset]%}%{$FG[$BLUE]%}ﴱ%{$FX[reset]%} %{$FG[$GREY]%}$ZSH_KUBECTL_PROMPT%{$FX[reset]%}"
     fi
 }
 
@@ -52,9 +52,14 @@ ZSH_THEME_GIT_PROMPT_DIRTY=" %{$FG[$RED]%}%{$FX[reset]%}"
 
 # Prompts
 PROMPT_USER="%{$FG[$BLUE]%}%{$FX[reset]%} %{$FG[$GREY]%}%n%{$FX[reset]%} %{$FG[$YELLOW]%}%{$FX[reset]%}"
-# PROMPT_END="
-# %{$FG[$MAGENTA]%}❯%{$FX[reset]%} "
+PROMPT_DEFAULT="$PROMPT_USER %{$FG[$GREY]%}%.%{$FX[reset]%}$(go_version)$(git_prompt_info)
+$RET_STATUS "
 
-PROMPT='$(gcloud_context)$(k8s_context)$(virtualenv_info)
-$PROMPT_USER %{$FG[$GREY]%}%.%{$FX[reset]%}$(go_version)$(git_prompt_info)
-$RET_STATUS '
+# Default Prompt
+PROMPT="$PROMPT_DEFAULT"
+
+# Add k8s context to prompt if enabled
+if [[ -v THEME_K8S_CONTEXT_PROMPT ]]; then
+PROMPT='$(k8s_context)
+$PROMPT_DEFAULT'
+fi
