@@ -1,17 +1,16 @@
 [user]
     name = Chris Reeves
     email = chris@thisissoon.com
-	signingkey = 0D7AD5E5B70B5254
 [core]
     editor = vim
     filemode = false
 [alias]
     co = checkout
     br = branch
-    cm = commit -S
+    cm = commit
     st = status
     ap = add -p
-    ammend = commit --amend -S
+    ammend = commit --amend
     unstage = reset HEAD --
     last = log -1 HEAD
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an %ae>%Creset' --abbrev-commit
@@ -39,4 +38,9 @@
 [pull]
 	rebase = true
 [url "git@gitlab.com:"]
-    insteadOf = https://gitlab.com/
+	insteadOf = https://gitlab.com/
+[url "git@github.com:"]
+    insteadOf = http://github.com/
+    insteadOf = https://github.com/
+    insteadOf = git://github.com/
+    insteadOf = git+ssh://github.com/
