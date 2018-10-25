@@ -2,13 +2,20 @@
 # Oh My ZSH
 #
 
-# # Set custom zsh directory
-# ZSH_CUSTOM=$HOME/.zsh-custom
-#
-# # Set Theme
-# export ZSH_THEME="chris"
+autoload -U colors; colors
+autoload -Uz url-quote-magic
+zle -N self-insert url-quote-magic
 
-# zgen lightweight plugin manager for Zsh
+#
+# Pre Scripts - Not Version Controlled
+# Run BEFORE plugins are loaded
+#
+
+if [ -d $HOME/.zsh.pre.d ]; then
+	for file in $HOME/.zsh.pre.d/**/*(.); do source $file; done
+fi
+
+# Zgen Plugin Manager
 source "${HOME}/.zgen/zgen.zsh"
 
 # if the init scipt doesn't exist
@@ -19,26 +26,16 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/docker-compose
     zgen oh-my-zsh plugins/autoenv
-    zgen oh-my-zsh plugins/pip
-    zgen oh-my-zsh plugins/virtualenvwrapper
 
     zgen load superbrothers/zsh-kubectl-prompt
-
     zgen load krak3n/.dots zsh/chris.zsh-theme
 
     zgen save
 fi
 
-autoload -U colors; colors
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic
-
 #
 # General
 #
-
-# Add ~/.local/bin to path
-export PATH=$PATH:~/.local/bin:~/go/bin
 
 # Extra Completions
 fpath=("$HOME/.completions" $fpath)
@@ -51,19 +48,14 @@ export EDITOR='vim'
 alias mjson='python -mjson.tool'
 
 # Copy / Paste integration aliases
-alias cc='xclip -selection clipboard'
-alias cv='xclip -selection clipboard -o'
-
-# kubectl
-alias kctl='kubectl'
-alias kns='kubens'
-alias kctx='kubectx'
+if (( $+commands[xclip] )); then
+	alias cc='xclip -selection clipboard'
+	alias cv='xclip -selection clipboard -o'
+fi
 
 # Autoenv
 [[ -s "/usr/local/bin/activate.sh" ]] && source "/usr/local/bin/activate.sh"
 [[ -s "$HOME/.local/bin/activate.sh" ]] && source "$HOME/.local/bin/activate.sh"
-
-
 
 #
 # Python
@@ -78,32 +70,33 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 # Go
 #
 
-[[ -s "/home/chris/.gvm/scripts/gvm" ]] && source "/home/chris/.gvm/scripts/gvm"
-
-
-# Source oh my zsh
-# source $ZSH/oh-my-zsh.sh
-
-# Private Aliases
-[ -f $HOME/.aliases ] && source $HOME/.aliases
+# Add Go bin to Path
+export PATH="$HOME/go/bin":"$PATH"
+# Execute GVM scripts
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
 #
 # GCloud SDk
 #
 
 # The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/.google/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/.google/google-cloud-sdk/path.zsh.inc"; fi
 
-
-if [ -f "$HOME/.google-cloud-sdk/path.zsh.inc" ]; then source "$HOME/.google-cloud-sdk/path.zsh.inc"; fi
 # The next line enables shell command completion for gcloud.
-if [ -f "$HOME/.google-cloud-sdk/completion.zsh.inc" ]; then source "$HOME/.google-cloud-sdk/completion.zsh.inc"; fi
+if [ -f "$HOME/.google/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/.google/google-cloud-sdk/completion.zsh.inc"; fi
 
 #
 # Kubernetes
 #
 
 # Enabled kubectl
-if (( $+commands[kubectl] )); then source <(kubectl completion zsh); fi
+if (( $+commands[kubectl] )); then
+	source <(kubectl completion zsh)
+	alias kctl='kubectl'
+fi
+# kubectx / kubens
+if (( $+commands[kubectx] )); then alias kctx='kubectx'; fi
+if (( $+commands[kubens] )); then alias kns='kubens'; fi
 # Minikube auto completion
 if (( $+commands[minikube] )); then source <(minikube completion zsh); fi
 
@@ -111,6 +104,12 @@ if (( $+commands[minikube] )); then source <(minikube completion zsh); fi
 # Helm
 #
 
-if type helm > /dev/null; then
-    source <(helm completion zsh)
+if (( $+commands[helm] )); then source <(helm completion zsh); fi
+
+#
+# Post Sciprs - Not Version Controlled
+#
+
+if [ -d $HOME/.zsh.post.d ]; then
+	for file in $HOME/.zsh.post.d/**/*(.); do source $file; done
 fi
