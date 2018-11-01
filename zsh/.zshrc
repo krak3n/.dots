@@ -25,7 +25,6 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/git
     zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/docker-compose
-    zgen oh-my-zsh plugins/autoenv
 
     zgen load superbrothers/zsh-kubectl-prompt
     zgen load krak3n/.dots zsh/chris.zsh-theme
@@ -114,3 +113,9 @@ if (( $+commands[helm] )); then source <(helm completion zsh); fi
 if [ -d $HOME/.zsh.post.d ]; then
 	for file in $HOME/.zsh.post.d/**/*(.); do source $file; done
 fi
+
+#
+# direnv - autoenv alternative
+#
+
+eval "$(direnv hook zsh)"
