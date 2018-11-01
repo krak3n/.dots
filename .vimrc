@@ -11,6 +11,9 @@ call plug#begin('~/.vim/plugged')
 " Theme
 Plug 'joshdick/onedark.vim'
 
+" Fuzzy Finder
+Plug 'Shougo/denite.nvim'
+
 " Code Completion
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -46,6 +49,9 @@ Plug 'sgur/vim-editorconfig'
 
 " Dev Icons
 Plug 'ryanoasis/vim-devicons'
+
+" Linting
+Plug 'w0rp/ale'
 
 " Go
 Plug 'fatih/vim-go', { 'for': 'go' }
@@ -268,6 +274,25 @@ endfunc
 autocmd BufWrite * :call DeleteTrailingWS()
 
 "
+" Denite
+"
+
+call denite#custom#option('default', {
+      \ 'prompt': '❯'
+      \ })
+call denite#custom#var('file_rec', 'command',
+      \ ['rg', '--files', '--glob', '!.git'])
+
+nnoremap <C-p> :<C-u>Denite file_rec<CR>
+
+"
+" Ale
+"
+
+let g:ale_sign_error = '⤫'
+let g:ale_sign_warning = '⚠'
+
+"
 " Deoplete
 "
 
@@ -310,6 +335,8 @@ let g:airline#extensions#tabline#show_close_button = 1
 let g:airline#extensions#tabline#buffer_nr_show = 0
 let g:airline#extensions#tabline#fnamemod = ':.'
 let g:airline#extensions#tabline#fnamecollapse = 0
+" Linting using ale
+let g:airline#extensions#ale#enabled = 1
 
 "
 " NERDTree

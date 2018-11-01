@@ -72,6 +72,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # Add Go bin to Path
 export PATH="$HOME/go/bin":"$PATH"
+alias golm='go list -m -f '"'"'{{ .Path }} | {{ .Dir }}'"'"' all'
 # Execute GVM scripts
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
