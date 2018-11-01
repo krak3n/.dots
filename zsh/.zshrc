@@ -52,10 +52,6 @@ if (( $+commands[xclip] )); then
 	alias cv='xclip -selection clipboard -o'
 fi
 
-# Autoenv
-[[ -s "/usr/local/bin/activate.sh" ]] && source "/usr/local/bin/activate.sh"
-[[ -s "$HOME/.local/bin/activate.sh" ]] && source "$HOME/.local/bin/activate.sh"
-
 #
 # Python
 #
