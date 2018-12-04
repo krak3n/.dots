@@ -1,16 +1,18 @@
-snippet funct "Table Test" b
+priority 1
+
+snippet tt "Table Test" b
 func Test${1:name}(t *testing.T) {
-	type tc struct{
-		tname string
+	type TestCase struct{
+		tName string
 	}
-	tt := []tc{
+	tt := []TestCase{
 		{
-			tname: "",
+			tName: "",
 		},
 	}
 	for _, tc := range tt {
 		tc := tc
-		t.Run(tc.tname, func(t *testing.T) {
+		t.Run(tc.tName, func(t *testing.T) {
 			t.Parallel()
 		})
 	}

@@ -6,7 +6,11 @@ set nocompatible
 "
 
 " Vim Plug
-call plug#begin('~/.vim/plugged')
+if has('nvim')
+	call plug#begin('~/.local/share/nvim/plugged')
+else
+	call plug#begin('~/.vim/plugged')
+endif
 
 " Theme
 Plug 'joshdick/onedark.vim'
@@ -54,34 +58,17 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'w0rp/ale'
 
 " Go
-Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
-
-" Rust
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-Plug 'sebastianmarkow/deoplete-rust', { 'for': 'rust' }
-
-" Python
-Plug 'klen/python-mode', { 'for': 'python' }
-Plug 'zchee/deoplete-jedi', { 'for': 'python' }
-
-" HTML
-Plug 'mattn/emmet-vim', { 'for': 'html' }
+Plug 'fatih/vim-go'
+Plug 'zchee/deoplete-go', { 'do': 'make' }
 
 " Toml
-Plug 'cespare/vim-toml', { 'for': 'toml' }
+Plug 'cespare/vim-toml'
 
 " JSON
-Plug 'elzr/vim-json', { 'for': 'json' }
+Plug 'elzr/vim-json'
 
-" QML
-Plug 'peterhoeg/vim-qml', { 'for': 'qml' }
-
-" Mustache
-Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
-
-" Nginx
-Plug 'chr4/nginx.vim'
+" Generate things
+Plug 'nicwest/vim-generate'
 
 " Load Plugins
 call plug#end()
@@ -248,7 +235,6 @@ function! ToggleSpellCheck()
     echo "Spellcheck OFF"
   endif
 endfunction
-
 nnoremap <F6> :call ToggleSpellCheck()<CR>
 
 "
@@ -274,16 +260,39 @@ endfunc
 autocmd BufWrite * :call DeleteTrailingWS()
 
 "
+" Deoplete
+"
+
+let g:deoplete#enable_at_startup = 1
+
+inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
+inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : <SID>check_back_space() ? "\<S-TAB>" : deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+let col = col('.') - 1
+return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
+"
 " Denite
 "
 
-call denite#custom#option('default', {
-      \ 'prompt': '❯'
-      \ })
-call denite#custom#var('file_rec', 'command',
-      \ ['rg', '--files', '--glob', '!.git'])
+" call denite#custom#option('default', {
+"       \ 'prompt': '❯'
+"       \ })
+" call denite#custom#var('file_rec', 'command',
+"       \ ['rg', '--files', '--glob', '!.git'])
+"
+" nnoremap <C-p> :<C-u>Denite file_rec<CR>
 
-nnoremap <C-p> :<C-u>Denite file_rec<CR>
+map <C-P> :DeniteProjectDir -buffer-name=git -direction=top file_rec/git<CR>
+map <C-O> :DeniteProjectDir -buffer-name=files -direction=top file_rec<CR>
+
+" -u flag to unrestrict (see ag docs)
+call denite#custom#var('file_rec', 'command',
+	\ ['ag', '--follow', '--nocolor', '--nogroup', '-u', '-g', ''])
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command',
+	\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 
 "
 " Ale
@@ -293,22 +302,10 @@ let g:ale_sign_error = '⤫'
 let g:ale_sign_warning = '⚠'
 
 "
-" Deoplete
-"
-
-let g:deoplete#enable_at_startup = 1
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
-inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : <SID>check_back_space() ? "\<S-TAB>" : deoplete#mappings#manual_complete()
-function! s:check_back_space() abort "{{{
-let col = col('.') - 1
-return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-
-"
 " Ultisnips
 "
 
-let g:UltiSnipsSnippetsDir="~/.ultisnips"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.ultisnips']
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
@@ -379,6 +376,8 @@ let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ""
 " Go
 "
 
+let g:deoplete#sources#go#pointer = 1
+let g:go_info_mode='gocode'
 let g:go_fmt_command = "goimports"
 let g:go_highlight_types = 1
 let g:go_highlight_function_calls = 1
@@ -390,6 +389,7 @@ let g:go_highlight_variable_declarations = 1
 let g:go_auto_type_info = 1
 let g:go_term_enabled = 1
 let g:go_gocode_unimported_packages = 1
+let g:go_gocode_propose_source = 0
 map <leader>gi :GoInstall<cr>
 map <leader>gb :GoBuild -i<cr>
 map <leader>gr :GoRun<cr>
@@ -408,3 +408,9 @@ let g:ycm_rust_src_path = '/usr/src/rust/src'
 "
 
 let g:vim_json_syntax_conceal = 0
+
+"
+" Generate things
+"
+
+map <leader>uuid :Generate uuid<CR>

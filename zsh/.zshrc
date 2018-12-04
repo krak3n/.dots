@@ -22,6 +22,7 @@ source "${HOME}/.zgen/zgen.zsh"
 if ! zgen saved; then
     zgen oh-my-zsh
     zgen oh-my-zsh plugins/ssh
+    zgen oh-my-zsh plugins/ssh-agent
     zgen oh-my-zsh plugins/git
     zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/docker-compose
@@ -41,7 +42,7 @@ fpath=("$HOME/.completions" $fpath)
 autoload -U compinit && compinit
 
 # Set default Editor to Vim
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # Pretty json
 alias mjson='python -mjson.tool'
@@ -51,6 +52,11 @@ if (( $+commands[xclip] )); then
 	alias cc='xclip -selection clipboard'
 	alias cv='xclip -selection clipboard -o'
 fi
+
+# Generate a uuid and copy it to the clipboaed
+uuidv4() {
+	uuidgen | tr -d '\n' | xclip -selection clipboard
+}
 
 #
 # Python
@@ -93,14 +99,20 @@ fi
 # kubectx / kubens
 if (( $+commands[kubectx] )); then alias kctx='kubectx'; fi
 if (( $+commands[kubens] )); then alias kns='kubens'; fi
-# Minikube auto completion
-if (( $+commands[minikube] )); then source <(minikube completion zsh); fi
 
 #
 # Helm
 #
 
 if (( $+commands[helm] )); then source <(helm completion zsh); fi
+
+#
+# GMux
+#
+
+if [ -f "$HOME/.gmux.zsh" ] && [ -f "$HOME/.gmux/autocomplete/zsh_autocomplete" ] && (( $+commands[gmux] )); then
+	source "$HOME/.gmux.zsh"
+fi
 
 #
 # Post Sciprs - Not Version Controlled
