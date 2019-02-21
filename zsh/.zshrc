@@ -92,13 +92,17 @@ if [ -f "$HOME/.google/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/.go
 #
 
 # Enabled kubectl
-if (( $+commands[kubectl] )); then
-	source <(kubectl completion zsh)
-	alias kctl='kubectl'
-fi
-# kubectx / kubens
-if (( $+commands[kubectx] )); then alias kctx='kubectx'; fi
-if (( $+commands[kubens] )); then alias kns='kubens'; fi
+# if (( $+commands[kubectl] )); then
+# 	alias kctl='kubectl'
+# 	source <(kubectl completion zsh)
+# fi
+# # kubectx / kubens
+# if (( $+commands[kubectx] )); then
+# 	alias kctx='kubectx'
+# fi
+# if (( $+commands[kubens] )); then
+# 	alias kns='kubens'
+# fi
 
 #
 # Helm
@@ -114,6 +118,13 @@ if [ -f "$HOME/.gmux.zsh" ] && [ -f "$HOME/.gmux/autocomplete/zsh_autocomplete" 
 	source "$HOME/.gmux.zsh"
 fi
 
+
+#
+# direnv - autoenv alternative
+#
+
+eval "$(direnv hook zsh)"
+
 #
 # Post Sciprs - Not Version Controlled
 #
@@ -121,9 +132,3 @@ fi
 if [ -d $HOME/.zsh.post.d ]; then
 	for file in $HOME/.zsh.post.d/**/*(.); do source $file; done
 fi
-
-#
-# direnv - autoenv alternative
-#
-
-eval "$(direnv hook zsh)"

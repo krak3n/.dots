@@ -70,6 +70,9 @@ Plug 'elzr/vim-json'
 " Generate things
 Plug 'nicwest/vim-generate'
 
+" Jenkins
+Plug 'martinda/jenkinsfile-vim-syntax'
+
 " Load Plugins
 call plug#end()
 
@@ -377,8 +380,7 @@ let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ""
 "
 
 let g:deoplete#sources#go#pointer = 1
-let g:go_info_mode='gocode'
-let g:go_fmt_command = "goimports"
+
 let g:go_highlight_types = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
@@ -388,8 +390,12 @@ let g:go_highlight_generate_tags = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_auto_type_info = 1
 let g:go_term_enabled = 1
+
+let g:go_info_mode='gocode'
+let g:go_fmt_command = "goimports"
+
 let g:go_gocode_unimported_packages = 1
-let g:go_gocode_propose_source = 0
+
 map <leader>gi :GoInstall<cr>
 map <leader>gb :GoBuild -i<cr>
 map <leader>gr :GoRun<cr>
@@ -401,7 +407,6 @@ map <leader>gr :GoRun<cr>
 let g:rustfmt_autosave = 1
 let g:rust_clip_command = 'xclip -selection clipboard'
 let g:ycm_rust_src_path = '/usr/src/rust/src'
-
 
 "
 " JSON
