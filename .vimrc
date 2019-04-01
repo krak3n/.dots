@@ -109,7 +109,9 @@ set virtualedit=block        " Position cursor anywhere in visual block
 set synmaxcol=1000           " Don't syntax highlight long lines
 set formatoptions+=1         " Don't break lines after a one-letter word
 set formatoptions-=t         " Don't auto-wrap text
-set directory=/dev/shm       " Write swap files to memory, not disk
+set backupdir=/tmp//
+set directory=/tmp//
+set undodir=/tmp//
 set conceallevel=0           " Disabled autohide in vim-json
 
 "
