@@ -30,7 +30,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/golang
 
     zgen load superbrothers/zsh-kubectl-prompt
-    zgen load krak3n/.dots zsh/chris.zsh-theme
+    zgen load krak3n/zsh-theme krak3n.zsh-theme
 
     zgen save
 fi
