@@ -395,12 +395,15 @@ let g:go_term_enabled = 1
 
 let g:go_info_mode='gocode'
 let g:go_fmt_command = "goimports"
+let g:go_def_mode='gopls'
 
 let g:go_gocode_unimported_packages = 1
 
 map <leader>gi :GoInstall<cr>
 map <leader>gb :GoBuild -i<cr>
 map <leader>gr :GoRun<cr>
+
+let g:ale_go_bingo_executable = 'gopls'
 
 "
 " Rust

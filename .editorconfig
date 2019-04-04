@@ -1,12 +1,3 @@
-#  ____   __    __   __ _
-# / ___) /  \  /  \ (  ( \
-# \___ \(  O )(  O )/    / ____
-# (____/ \__/  \__/ \_)__)(____)
-#
-# SOON_ Cross team root editorconfig configuration
-# Projects can also have a local .editorconfig to customise syntax
-#
-
 # top-most EditorConfig file
 root = true
 

@@ -27,6 +27,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/docker-compose
     zgen oh-my-zsh plugins/aws
+    zgen oh-my-zsh plugins/golang
 
     zgen load superbrothers/zsh-kubectl-prompt
     zgen load krak3n/.dots zsh/chris.zsh-theme
