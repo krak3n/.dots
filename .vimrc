@@ -94,6 +94,9 @@ colorscheme onedark
 " General
 "
 
+set exrc                     " Allow loading of local rc files
+set secure                   " Disallow :autocmd, shell and write commands in local rc files
+
 set encoding=utf-8           " Explicitly set encoding to utf-8
 set mouse=nv                 " Disable mouse in command-line mode
 set modeline                 " automatically setting options from modelines
@@ -390,20 +393,21 @@ let g:go_highlight_extra_types = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
 let g:go_highlight_variable_declarations = 1
-let g:go_auto_type_info = 1
+let g:go_auto_type_info = 0
 let g:go_term_enabled = 1
 
-let g:go_info_mode='gocode'
+let g:go_gocode_autobuild=1
+let g:go_gocode_unimported_packages = 1
+
 let g:go_fmt_command = "goimports"
 let g:go_def_mode='gopls'
-
-let g:go_gocode_unimported_packages = 1
+let g:go_info_mode='gopls'
+let g:ale_go_bingo_executable = 'gopls'
+let g:go_metalinter_command='golangci-lint'
 
 map <leader>gi :GoInstall<cr>
 map <leader>gb :GoBuild -i<cr>
 map <leader>gr :GoRun<cr>
-
-let g:ale_go_bingo_executable = 'gopls'
 
 "
 " Rust
