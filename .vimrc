@@ -1,11 +1,7 @@
-" Disable vi compatability
-set nocompatible
+" -----------------------------------------------------------------------------
+" Plugins (via vim-plug)
+" -----------------------------------------------------------------------------
 
-"
-" Plugins
-"
-
-" Vim Plug
 if has('nvim')
 	call plug#begin('~/.local/share/nvim/plugged')
 else
@@ -13,80 +9,46 @@ else
 endif
 
 " Theme
+
 Plug 'joshdick/onedark.vim'
 
-" Fuzzy Finder
-Plug 'Shougo/denite.nvim'
+" IDE
 
-Plug 'kristijanhusak/defx-icons'
+Plug 'vim-airline/vim-airline'                                     " Buffline
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'} " Completion
+Plug 'w0rp/ale'                                                    " Linting
+Plug 'Yggdroot/indentLine'                                         " Indentation Highlighting
+Plug 'qpkorr/vim-bufkill'                                          " Buffer removal
+Plug 'sgur/vim-editorconfig'                                       " Language specific syntax
 
-" Code Completion
+" Project draw
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+	Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'Shougo/defx.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+	Plug 'Shougo/defx.nvim'
+	Plug 'roxma/nvim-yarp'
+	Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
-" Buffer removal
-Plug 'qpkorr/vim-bufkill'
+Plug 'ryanoasis/vim-devicons'                                      " Icons
+Plug 'kristijanhusak/defx-icons'                                   " Project drawer icons
+Plug 'nicwest/vim-generate'                                        " Generates strings
 
-" Airline
-Plug 'vim-airline/vim-airline'
+" Languages
 
-" Nerd Tree
-" Plug 'scrooloose/nerdtree'
+Plug 'fatih/vim-go'      " Go
+Plug 'cespare/vim-toml'  " TOML
+Plug 'elzr/vim-json'     " JSON
 
-" Surround
-Plug 'tpope/vim-surround'
-
-" Auto brakets
-Plug 'jiangmiao/auto-pairs'
-
-" Indentation Guides
-Plug 'Yggdroot/indentLine'
-
-" Snippers
-Plug 'SirVer/ultisnips'
-
-" Editor Config
-Plug 'sgur/vim-editorconfig'
-
-" Dev Icons
-Plug 'ryanoasis/vim-devicons'
-
-" Linting
-Plug 'w0rp/ale'
-
-" Go
-Plug 'fatih/vim-go'
-Plug 'zchee/deoplete-go', { 'do': 'make' }
-
-" Toml
-Plug 'cespare/vim-toml'
-
-" JSON
-Plug 'elzr/vim-json'
-
-" Generate things
-Plug 'nicwest/vim-generate'
-
-" Jenkins
-Plug 'martinda/jenkinsfile-vim-syntax'
-
-" Load Plugins
 call plug#end()
 
-"
-" Theme
-"
+" -----------------------------------------------------------------------------
+" Color Scheme
+" -----------------------------------------------------------------------------
 
 set background=light
-if (has("termguicolors"))
-  set termguicolors
+if (has('termguicolors'))
+	set termguicolors
 endif
 
 let g:onedark_termcolors=16
@@ -94,65 +56,64 @@ let g:onedark_terminal_italics=1
 
 colorscheme onedark
 
-"
-" General
-"
+syntax on
+filetype plugin indent on
 
-set exrc                     " Allow loading of local rc files
-set secure                   " Disallow :autocmd, shell and write commands in local rc files
+" -----------------------------------------------------------------------------
+" General nvim settings
+" -----------------------------------------------------------------------------
 
-set encoding=utf-8           " Explicitly set encoding to utf-8
-set mouse=nv                 " Disable mouse in command-line mode
-set modeline                 " automatically setting options from modelines
-set report=0                 " Don't report on line changes
-" set errorbells               " Trigger bell on error
-set visualbell               " Use visual bell instead of beeping
-set t_vb=
-set hidden                   " hide buffers when abandoned instead of unload
-set fileformats=unix,dos,mac " Use Unix as the standard file type
-set magic                    " For regular expressions turn magic on
-set path=.,**                " Directories to search when using gf
-set virtualedit=block        " Position cursor anywhere in visual block
-set synmaxcol=1000           " Don't syntax highlight long lines
-set formatoptions+=1         " Don't break lines after a one-letter word
-set formatoptions-=t         " Don't auto-wrap text
+set nocompatible                " Disable vi compatability
+
+set exrc                        " Allow loading of local rc files
+set secure                      " Disallow :autocmd, shell and write commands in local rc files
+set encoding=utf-8              " Explicitly set encoding to utf-8
+set mouse=nv                    " Disable mouse in command-line mode
+set modeline                    " automatically setting options from modelines
+set report=0                    " Don't report on line changes
+set visualbell                  " Use visual bell instead of beeping
+set hidden                      " hide buffers when abandoned instead of unload
+set fileformats=unix,dos,mac    " Use Unix as the standard file type
+set magic                       " For regular expressions turn magic on
+set path=.,**                   " Directories to search when using gf
+set virtualedit=block           " Position cursor anywhere in visual block
+set synmaxcol=1000              " Don't syntax highlight long lines
+set formatoptions+=1            " Don't break lines after a one-letter word
+set formatoptions-=t            " Don't auto-wrap text
+set conceallevel=0              " Disabled autohide in vim-json
+set updatetime=300              " Smaller updatetime for CursorHold & CursorHoldI
+set signcolumn=yes              " always show signcolumns
 set backupdir=/tmp//
 set directory=/tmp//
 set undodir=/tmp//
-set conceallevel=0           " Disabled autohide in vim-json
+set t_vb=
 
-"
 " Tabs and Indents
-"
 
-set textwidth=80    " Text width maximum chars before wrapping
-set noexpandtab     " Don't expand tabs to spaces.
-set tabstop=4       " The number of spaces a tab is
-set softtabstop=4   " While performing editing operations
-set shiftwidth=4    " Number of spaces to use in auto(indent)
-set smarttab        " Tab insert blanks according to 'shiftwidth'
-set autoindent      " Use same indenting on new lines
-set smartindent     " Smart autoindenting on new lines
-set shiftround      " Round indent to multiple of 'shiftwidth'
+set textwidth=100               " Text width maximum chars before wrapping
+set noexpandtab                 " Don't expand tabs to spaces.
+set tabstop=4                   " The number of spaces a tab is
+set softtabstop=4               " While performing editing operations
+set shiftwidth=4                " Number of spaces to use in auto(indent)
+set smarttab                    " Tab insert blanks according to 'shiftwidth'
+set autoindent                  " Use same indenting on new lines
+set smartindent                 " Smart autoindenting on new lines
+set shiftround                  " Round indent to multiple of 'shiftwidth'
 
-"
 " Searching
-"
 
-set ignorecase      " Search ignoring case
-set smartcase       " Keep case when searching with *
-set infercase       " Adjust case in insert completion mode
-set incsearch       " Incremental search
-set hlsearch        " Highlight search results
-set wrapscan        " Searches wrap around the end of the file
-set showmatch       " Jump to matching bracket
-set matchpairs+=<:> " Add HTML brackets to pair matching
-set matchtime=1     " Tenths of a second to show the matching paren
-set cpoptions-=m    " showmatch will wait 0.5s or until a char is typed
+set ignorecase                  " Search ignoring case
+set smartcase                   " Keep case when searching with *
+set infercase                   " Adjust case in insert completion mode
+set incsearch                   " Incremental search
+set hlsearch                    " Highlight search results
+set wrapscan                    " Searches wrap around the end of the file
+set showmatch                   " Jump to matching bracket
+set matchpairs+=<:>             " Add HTML brackets to pair matching
+set matchtime=1                 " Tenths of a second to show the matching paren
+set cpoptions-=m                " showmatch will wait 0.5s or until a char is typed
 
-"
 " Behavior
-"
 
 set nowrap                      " No wrap by default
 set linebreak                   " Break long lines at 'breakat'
@@ -169,51 +130,38 @@ set complete=.                  " No wins, buffs, tags, include scanning
 set completeopt=menuone         " Show menu even for one item
 set completeopt+=noselect       " Do not select a match in the menu
 
-"
 " Editor UI Appearance
-"
 
-set noshowmode          " Don't show mode in cmd window
-set shortmess=aoOTI     " Shorten messages and don't show intro
-set scrolloff=2         " Keep at least 2 lines above/below
-set sidescrolloff=5     " Keep at least 5 lines left/right
-set number              " Show line numbers
-set relativenumber      " Relative line numbers
-set noruler             " Disable default status ruler
-set list                " Show hidden characters
+set noshowmode                  " Don't show mode in cmd window
+set shortmess=aoOTI             " Shorten messages and don't show intro
+set scrolloff=2                 " Keep at least 2 lines above/below
+set sidescrolloff=5             " Keep at least 5 lines left/right
+set number                      " Show line numbers
+set relativenumber              " Relative line numbers
+set noruler                     " Disable default status ruler
+set list                        " Show hidden characters
 
-set showtabline=2       " Always show the tabs line
-set winwidth=30         " Minimum width for active window
-set winheight=1         " Minimum height for active window
-set pumheight=15        " Pop-up menu's line height
-set helpheight=12       " Minimum help window height
-set previewheight=12    " Completion preview height
+set showtabline=2               " Always show the tabs line
+set winwidth=30                 " Minimum width for active window
+set winheight=1                 " Minimum height for active window
+set pumheight=15                " Pop-up menu's line height
+set helpheight=12               " Minimum help window height
+set previewheight=12            " Completion preview height
 
-set noshowcmd           " Don't show command in status line
-set cmdheight=2         " Height of the command line
-set cmdwinheight=5      " Command-line lines
-set noequalalways       " Don't resize windows on split or close
-set laststatus=2        " Always show a status line
-set colorcolumn=80      " Highlight the 80th character limit
+set noshowcmd                   " Don't show command in status line
+set cmdheight=2                 " Height of the command line
+set cmdwinheight=5              " Command-line lines
+set noequalalways               " Don't resize windows on split or close
+set laststatus=2                " Always show a status line
+set colorcolumn=80              " Highlight the 80th character limit
 set display=lastline
 
-"
-" UI elements
-"
-
 set showbreak=↪\
-set listchars=tab:¦\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+set listchars=tab:⤷\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 
-"
-" Syntax
-"
-
-syntax on
-filetype plugin indent on
-
-"
+" -----------------------------------------------------------------------------
 " Key Bindings
-"
+" -----------------------------------------------------------------------------
 
 " Disable arrow keys
 noremap  <Up> ""
@@ -249,9 +197,9 @@ function! ToggleSpellCheck()
 endfunction
 nnoremap <F6> :call ToggleSpellCheck()<CR>
 
-"
+" -----------------------------------------------------------------------------
 " System Clipboard
-"
+" -----------------------------------------------------------------------------
 
 " Use the system clipboard for yank / delete / paste operations
 if has('unnamedplus')
@@ -260,9 +208,9 @@ else
     set clipboard=unnamed
 endif
 
-"
-" Delete Trailing White Space
-"
+" -----------------------------------------------------------------------------
+" Delete trailing whitespace on write
+" -----------------------------------------------------------------------------
 
 func! DeleteTrailingWS()
     exe "normal mz"
@@ -271,60 +219,9 @@ func! DeleteTrailingWS()
 endfunc
 autocmd BufWrite * :call DeleteTrailingWS()
 
-"
-" Deoplete
-"
-
-let g:deoplete#enable_at_startup = 1
-
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
-inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : <SID>check_back_space() ? "\<S-TAB>" : deoplete#mappings#manual_complete()
-function! s:check_back_space() abort "{{{
-let col = col('.') - 1
-return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-
-"
-" Denite
-"
-
-" call denite#custom#option('default', {
-"       \ 'prompt': '❯'
-"       \ })
-" call denite#custom#var('file_rec', 'command',
-"       \ ['rg', '--files', '--glob', '!.git'])
-"
-" nnoremap <C-p> :<C-u>Denite file_rec<CR>
-
-map <C-P> :DeniteProjectDir -buffer-name=git -direction=top file_rec/git<CR>
-map <C-O> :DeniteProjectDir -buffer-name=files -direction=top file_rec<CR>
-
-" -u flag to unrestrict (see ag docs)
-call denite#custom#var('file_rec', 'command',
-	\ ['ag', '--follow', '--nocolor', '--nogroup', '-u', '-g', ''])
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command',
-	\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-
-"
-" Ale
-"
-
-let g:ale_sign_error = '⤫'
-let g:ale_sign_warning = '⚠'
-
-"
-" Ultisnips
-"
-
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.ultisnips']
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-"
-" Airline
-"
+" -----------------------------------------------------------------------------
+" airline settings
+" -----------------------------------------------------------------------------
 
 let g:airline_skip_empty_sections = 0
 let g:airline#extensions#syntastic#enabled = 0
@@ -334,6 +231,7 @@ let g:airline#extensions#wordcount#enabled = 0
 let g:airline_theme = 'onedark'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tagbar#enabled = 1
+
 " Enable tab line
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tabs = 0
@@ -344,29 +242,13 @@ let g:airline#extensions#tabline#show_close_button = 1
 let g:airline#extensions#tabline#buffer_nr_show = 0
 let g:airline#extensions#tabline#fnamemod = ':.'
 let g:airline#extensions#tabline#fnamecollapse = 0
+
 " Linting using ale
 let g:airline#extensions#ale#enabled = 1
 
-"
-" NERDTree
-"
-
-" map <C-n> :NERDTreeToggle<CR>
-" let g:NERDTreeAutoDeleteBuffer = 1
-" let g:NERDTreeMinimalUI = 1
-" let g:NERDTreeDirArrows = 1
-" let g:NERDTreeCascadeSingleChildDir = 0
-" let g:NERDTreeDirArrowExpandable = ''
-" let g:NERDTreeDirArrowCollapsible = ''
-"
-" let g:NERDTreeNaturalSort = 0
-" let g:NERDTreeSortHiddenFirst = 1
-" let g:NERDTreeCaseSensitiveSort = 1
-" let g:NERDTreeShowHidden = 1
-
-"
-" Defx
-"
+" -----------------------------------------------------------------------------
+" defx settings
+" -----------------------------------------------------------------------------
 
 autocmd FileType defx call s:defx_mappings()
 autocmd VimEnter * call s:setup_defx()
@@ -470,32 +352,67 @@ function! s:defx_mappings() abort
   silent exe 'nnoremap <silent><buffer><expr> tt defx#do_action("toggle_columns", "'.s:default_columns.':size:time")'
 endfunction
 
-"
-" Indentation Guides
-"
+" -----------------------------------------------------------------------------
+" coc.nvim settings
+" -----------------------------------------------------------------------------
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+nnoremap <silent> U :call <SID>show_documentation()<CR>   " Use U to show documentation in preview window
+nmap <leader>rn <Plug>(coc-rename)                        " Remap for rename current word
+vmap <leader>f  <Plug>(coc-format-selected)               " Remap for format selected region
+nmap <leader>f  <Plug>(coc-format-selected)               " Remap for format selected region
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr> " Show all diagnostics
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>  " Manage extensions
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>    " Show commands
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>     " Find symbol of current document
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>  " Search workspace symbols
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>             " Do default action for next item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>             " Do default action for previous item.
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>       " Resume latest coc list
+
+" -----------------------------------------------------------------------------
+" indent line setttings
+" -----------------------------------------------------------------------------
 
 let g:indentLine_enabled = 1
 let g:indentLine_color_term = 8
-let g:indentLine_char = '¦'
+let g:indentLine_char = '⤷'
 
-"
-" Editor Config
-"
+" -----------------------------------------------------------------------------
+" Generate things
+" -----------------------------------------------------------------------------
 
-let g:editorconfig_verbose = 1
+map <leader>uuid :Generate uuid<CR>
 
-"
-" Dev Icons
-"
+" -----------------------------------------------------------------------------
+" vim-go settings
+" -----------------------------------------------------------------------------
 
-let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ""
-
-"
-" Go
-"
-
-let g:deoplete#sources#go#pointer = 1
-
+let g:go_def_mapping_enabled = 0 " Disable gd shortcut, handled by LC
 let g:go_highlight_types = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
@@ -503,38 +420,10 @@ let g:go_highlight_extra_types = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
 let g:go_highlight_variable_declarations = 1
-let g:go_auto_type_info = 1
-let g:go_term_enabled = 1
-
-let g:go_gocode_autobuild=1
-let g:go_gocode_unimported_packages = 1
 
 let g:go_fmt_command = "goimports"
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
-let g:ale_go_bingo_executable = 'gopls'
 let g:go_metalinter_command='golangci-lint'
 
 map <leader>gi :GoInstall<cr>
 map <leader>gb :GoBuild -i<cr>
 map <leader>gr :GoRun<cr>
-
-"
-" Rust
-"
-
-let g:rustfmt_autosave = 1
-let g:rust_clip_command = 'xclip -selection clipboard'
-let g:ycm_rust_src_path = '/usr/src/rust/src'
-
-"
-" JSON
-"
-
-let g:vim_json_syntax_conceal = 0
-
-"
-" Generate things
-"
-
-map <leader>uuid :Generate uuid<CR>
