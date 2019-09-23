@@ -6,21 +6,20 @@ autoload -U colors; colors
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
-#
-# Pre Scripts - Not Version Controlled
-# Run BEFORE plugins are loaded
-#
+###################
+# Pre run scripts
+###################
 
 if [ -d $HOME/.zsh.pre.d ]; then
 	for file in $HOME/.zsh.pre.d/**/*(.); do source $file; done
 fi
 
+###################
+# Plugins
+###################
 
 # Zgen Plugin Manager
 source "${HOME}/.zgen/zgen.zsh"
-
-# Go
-[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
 # if the init scipt doesn't exist
 if ! zgen saved; then
@@ -33,7 +32,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/httpie
     zgen oh-my-zsh plugins/aws
     zgen oh-my-zsh plugins/golang
-	zgen oh-my-zsh plugins/fzf
+    zgen oh-my-zsh plugins/fzf
 
     zgen load superbrothers/zsh-kubectl-prompt
     zgen load krak3n/zsh-theme krak3n.zsh-theme
@@ -41,9 +40,9 @@ if ! zgen saved; then
     zgen save
 fi
 
-#
+###################
 # General
-#
+###################
 
 # Extra Completions
 fpath=("$HOME/.completions" $fpath)
@@ -66,23 +65,25 @@ uuidv4() {
 	uuidgen | tr -d '\n' | xclip -selection clipboard
 }
 
-#
-# Python
-#
+# direnv - autoenv alternative
+eval "$(direnv hook zsh)"
 
-# Virtualenv
+###################
+# Languages
+###################
+
+# Python
 export DISABLE_VENV_CD=1
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 [[ -s "/usr/local/bin/virtualenvwrapper.sh" ]] && source "/usr/local/bin/virtualenvwrapper.sh"
 
-#
 # Go
-#
-
-# Add Go bin to Path
-export PATH="$HOME/go/bin":"$PATH"
 alias golm='go list -m -f '"'"'{{ .Path }} | {{ .Dir }}'"'"' all'
-# Execute GVM scripts
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+
+###################
+# Opperations
+###################
 
 #
 # GCloud SDk
@@ -95,49 +96,15 @@ if [ -f "$HOME/.google/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/.google/g
 if [ -f "$HOME/.google/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/.google/google-cloud-sdk/completion.zsh.inc"; fi
 
 #
-# Kubernetes
-#
-
-# Enabled kubectl
-# if (( $+commands[kubectl] )); then
-# 	alias kctl='kubectl'
-# 	source <(kubectl completion zsh)
-# fi
-# # kubectx / kubens
-# if (( $+commands[kubectx] )); then
-# 	alias kctx='kubectx'
-# fi
-# if (( $+commands[kubens] )); then
-# 	alias kns='kubens'
-# fi
-
-#
 # Helm
 #
 
 if (( $+commands[helm] )); then source <(helm completion zsh); fi
 
-#
-# GMux
-#
-
-if [ -f "$HOME/.gmux.zsh" ] && [ -f "$HOME/.gmux/autocomplete/zsh_autocomplete" ] && (( $+commands[gmux] )); then
-	source "$HOME/.gmux.zsh"
-fi
-
-
-#
-# direnv - autoenv alternative
-#
-
-eval "$(direnv hook zsh)"
-
-#
-# Post Sciprs - Not Version Controlled
-#
+###################
+# Post run scripts
+###################
 
 if [ -d $HOME/.zsh.post.d ]; then
 	for file in $HOME/.zsh.post.d/**/*(.); do source $file; done
 fi
-
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
