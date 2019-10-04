@@ -157,7 +157,7 @@ set colorcolumn=80              " Highlight the 80th character limit
 set display=lastline
 
 set showbreak=↪\
-set listchars=tab:⤷\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+set listchars=tab:⤷\ ,eol:⤶,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 
 " -----------------------------------------------------------------------------
 " Key Bindings
@@ -412,6 +412,8 @@ map <leader>uuid :Generate uuid<CR>
 " ale setttings
 " -----------------------------------------------------------------------------
 
+let g:ale_sign_error = ''
+let g:ale_sign_warning = ''
 let g:ale_linters = {
 	\ 'go': ['gopls'],
 	\}
