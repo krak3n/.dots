@@ -2,17 +2,16 @@ priority 1
 
 snippet tabletest "Table Test" b
 func Test${1:name}(t *testing.T) {
-	type TestCase struct{
-		tName string
+	type test struct {
 	}
-	tt := []TestCase{
-		{
-			tName: "",
-		},
+
+	cases := map[string]test{
+		"test name": test{},
 	}
-	for _, tc := range tt {
-		tc := tc
-		t.Run(tc.tName, func(t *testing.T) {
+
+	for name, test := range cases {
+		test := test
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 		})
 	}
