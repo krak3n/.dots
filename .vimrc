@@ -358,6 +358,13 @@ endfunction
 " -----------------------------------------------------------------------------
 " coc.nvim settings
 " -----------------------------------------------------------------------------
+call coc#config('coc.preferences', {
+  \   'diagnostic.errorSign'  : '',
+  \   'diagnostic.warningSign': '',
+  \   'diagnostic.infoSign'   : '',
+  \   'diagnostic.hintSign'   : '',
+  \   'snippetIndicator'      : ' ',
+  \ })
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
