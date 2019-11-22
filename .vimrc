@@ -435,7 +435,7 @@ map <leader>uuid :Generate uuid<CR>
 let g:ale_sign_error = ''
 let g:ale_sign_warning = ''
 let g:ale_linters = {
-	\ 'go': ['gopls'],
+	\ 'go': ['gopls','golint','govet','golangci-lint'],
 	\}
 
 " -----------------------------------------------------------------------------
@@ -453,6 +453,7 @@ let g:go_highlight_variable_declarations = 1
 
 let g:go_fmt_command = "goimports"
 let g:go_metalinter_command='golangci-lint'
+let g:go_metalinter_autosave = 1
 
 map <leader>gi :GoInstall<cr>
 map <leader>gb :GoBuild -i<cr>
