@@ -21,6 +21,7 @@ Plug 'Yggdroot/indentLine'                                         " Indentation
 Plug 'qpkorr/vim-bufkill'                                          " Buffer removal
 Plug 'sgur/vim-editorconfig'                                       " Language specific syntax
 Plug 'SirVer/ultisnips'                                            " Snipets
+Plug 'tmux-plugins/vim-tmux-focus-events'                          " Add support for tnmux focus events
 
 " Project draw
 if has('nvim')
@@ -66,6 +67,7 @@ filetype plugin indent on
 
 set nocompatible                " Disable vi compatability
 
+set autoread                    " Refresh file on external changes
 set exrc                        " Allow loading of local rc files
 set secure                      " Disallow :autocmd, shell and write commands in local rc files
 set encoding=utf-8              " Explicitly set encoding to utf-8
@@ -358,6 +360,13 @@ endfunction
 " -----------------------------------------------------------------------------
 " coc.nvim settings
 " -----------------------------------------------------------------------------
+let g:coc_global_extensions = [
+	\ 'coc-pairs',
+	\ 'coc-json',
+	\ 'coc-ultisnips',
+	\ 'coc-go',
+	\ ]
+
 call coc#config('coc.preferences', {
   \   'diagnostic.errorSign'  : '',
   \   'diagnostic.warningSign': '',
@@ -435,6 +444,7 @@ map <leader>uuid :Generate uuid<CR>
 let g:ale_sign_error = ''
 let g:ale_sign_warning = ''
 let g:ale_linters = {
+	\ 'yaml': ['yamllint'],
 	\ 'go': ['gopls','golint','govet','golangci-lint'],
 	\}
 
